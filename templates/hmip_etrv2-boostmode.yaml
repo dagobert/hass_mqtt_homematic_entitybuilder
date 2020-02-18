@@ -1,0 +1,15 @@
+# This is a switch to set boost mode
+#
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/BOOST_MODE"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/BOOST_MODE"
+value_template: >-
+        {% if value_json.val == true %}
+          ON
+        {% else %}
+          OFF
+        {% endif %}
+retain: true
+qos: 0

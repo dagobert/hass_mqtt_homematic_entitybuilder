@@ -1,0 +1,285 @@
+#!/bin/bash
+#
+# Functions that is common to many Homematic IP hardware
+#
+
+function func_create_ghm_rssidevice() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_rssidevice:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+
+  # Template for this entity
+	local l_template="ghm-rssidevice.yaml"
+
+  # entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777rssidevice"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="RSSI Device"
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_rssipeer() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_rssipeer:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+
+  # Template for this entity
+	local l_template="ghm-rssipeer.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777rssipeer"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="RSSI Peer"
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_dutycycle() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_dutycycle:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-dutycycle.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777dutycycle"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Duty Cycle"
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_unreach() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_unreach:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-unreach.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777unreach"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Erreichbar"
+
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_errorcode() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_errorcode:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-errorcode.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777errorcode"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Error Code"
+
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_sabotage() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_sabotage:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-sabotage.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777sabotage"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Sabotage"
+
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_lowbat() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_lowbat:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-lowbat.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777lowbat"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Batterie"
+
+  func_generateEntity
+
+}
+
+function func_create_ghm_operatingvoltage() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_operatingvoltage:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-operatingvoltage.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777operatingvoltage"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Betriebsspannung"
+
+  func_generateEntity
+
+}
+
+# Creates sensor ACTUAL_TEMPERATURE
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_actualtemperature() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_actualtemperature:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+  
+  # Template for this entity
+	local l_template="ghm-actualtemperature.yaml"
+	
+  # entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777actualtemperature"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Aktuelle Temperature"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor ACTUAL_TEMPERATURE_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_actualtemperaturestatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_actualtemperaturestatus:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-actualtemperaturestatus.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777actualtemperaturestatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Temperatursensor Status"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
+
+

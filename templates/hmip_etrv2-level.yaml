@@ -1,0 +1,10 @@
+# This topic is also writeable
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL"
+unit_of_measurement: "%"
+value_template: >-
+  {{ value_json.val }}
+qos: 0
+

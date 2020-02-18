@@ -1,0 +1,23 @@
+# Meaning of values
+# integer
+# 0 = AUTO
+# 1 = MANUAL
+# 2 = VACATION
+# 3 = ?
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_MODE"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_MODE"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "AUTO",
+    "MANUAL",
+    "VACATION",
+    "I dont know!" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+qos: 0
+

@@ -1,0 +1,33 @@
+# Meaning of values
+# integer
+# 0 = STATE_NOT_AVAILABLE
+# 1 = RUN_TO_START
+# 2 = WAIT_FOR_ADAPTION
+# 3 = ADAPTION_IN_PROGRESS
+# 4 = ADAPTION_DONE
+# 5 = TOO_TIGHT
+# 6 = ADJUSTMENT_TOO_BIG
+# 7 = ADJUSTMENT_TOO_SMALL
+# 8 = ERROR_POSITION
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/VALVE_STATE"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/VALVE_STATE"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "STATE_NOT_AVAILABLE",
+    "RUN_TO_START",
+    "WAIT_FOR_ADAPTION",
+    "ADAPTION_IN_PROGRESS",
+    "ADAPTION_DONE",
+    "TOO_TIGHT",
+    "ADJUSTMENT_TOO_BIG",
+    "ADJUSTMENT_TOO_SMALL",
+    "ERROR_POSITION" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+qos: 0
+

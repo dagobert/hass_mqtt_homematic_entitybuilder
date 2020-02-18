@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+# This is a wrapper for the entitybulder.
+# It takes an input file with a list of devices and calls the entitybulder
+# for each line. See example file for help
+
+
+# Entitybuilder
+progEntitybuilder="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant/mytools/entitybuilder"
+
+# Home Assistant base path
+habasepath="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant"
+
+justPrint=0
+while getopts "f:j" opt; do
+  case $opt in
+		f)  listFile=$OPTARG
+				;;
+		j)  justPrint=1
+				;;
+    \?)
+        echo "Invalid option: -$OPTARG" >&2
+        exit 1
+        ;;
+    :)
+        echo "Option -$OPTARG requires an argument." >&2
+        exit 1
+        ;;
+  esac
+done
+
+
+## Check for required options
+[ ! -e "$progEntitybuilder" ] && { echo "Program not found: entitybuilder"; exit 1; }
+[ ! -d "$habasepath" ] && { echo "Home Assistant base path not found"; exit 1; }
+[ ! -e "$listFile" ] && { echo "-f file does not exist"; exit 1; }
+
+
+linearray=
+while read -r listFileLine; do
+	linearray=( ${linearray[@]} $listFileLine )
+done <<<"$(egrep -v '(^#|^$)' $listFile)"
+
+for line in ${linearray[@]}; do
+
+	# Handle command
+	lineplit=( ${line//,/ } )
+
+	rewriteCustomization=
+	if [[ "${lineplit[4]}" == "true" ]]; then
+    rewriteCustomization="-C"
+	fi
+
+	if [[ "$justPrint" == 1 ]]; then
+		echo bash $progEntitybuilder -p $habasepath -c ${lineplit[0]} -m ${lineplit[1]} -n ${lineplit[2]} -H ${lineplit[3]} $rewriteCustomization
+  else
+		bash $progEntitybuilder -p $habasepath \
+			-c ${lineplit[0]} -m ${lineplit[1]} -n ${lineplit[2]} -H ${lineplit[3]} $rewriteCustomization
+	fi
+
+done
+
+
+
+
+
+

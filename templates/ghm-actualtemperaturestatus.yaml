@@ -1,0 +1,24 @@
+# Meaning of values
+# integer
+# 0 = NORMAL
+# 1 = UNKNOWN
+# 2 = OVERFLOW
+# 3 = UNDERFLOW
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACTUAL_TEMPERATURE_STATUS"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACTUAL_TEMPERATURE_STATUS"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "NORMAL",
+    "UNKNOWN",
+    "UNDERFLOW",
+    "OVERFLOW" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+icon: mdi:alert
+qos: 0
+

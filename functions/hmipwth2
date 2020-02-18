@@ -1,0 +1,66 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP eTRV2 hardware
+#
+
+###########
+# Channel 1
+###########
+
+
+function func_create_hmip_wth2_humidity() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_wth2_humidity:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_wth2-humidity.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777humidity"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Luftfeuchtigkeit"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_wth2_dewpoint() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_wth2_dewpoint:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_wth2-dewpoint.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777dewpoint"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Taupunkt"
+
+  func_generateEntity
+
+}
+
+
+

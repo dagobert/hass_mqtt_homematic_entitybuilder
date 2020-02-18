@@ -1,0 +1,10 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ENERGY_COUNTER"
+unit_of_measurement: "Wh"
+icon: mdi:counter
+value_template: >-
+  {{ value_json.val }}
+qos: 0
+

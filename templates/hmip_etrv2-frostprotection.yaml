@@ -1,0 +1,12 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/FROST_PROTECTION"
+value_template: >-
+        {% if value_json.val == "true" %}
+        ON
+        {% else %}
+        OFF
+        {% endif %}
+qos: 0
+

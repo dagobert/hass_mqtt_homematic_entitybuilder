@@ -1,0 +1,20 @@
+platform: template
+sensors:
+  __ENTITYNAME__:
+    entity_id:
+      - sensor.__NAME__777actualtemperature
+      - sensor.__NAME__777humidity
+    device_class: temperature
+    unit_of_measurement: "°C"
+    value_template: >-
+      {% set param_a = 7.5 %}
+      {% set param_b = 237.3 %}
+      {% set temperature = states('sensor.__NAME__777actualtemperature')|float %}
+      {% set humidity = states('sensor.__NAME__777humidity')|float %}
+      {% set equ_1_sdd = 6.1078 * 10**((param_a * temperature)/(param_b + temperature)) %}
+      {% set equ_2_dd = humidity / 100 * equ_1_sdd %}
+      {% set equ_4_vp1 = equ_2_dd / 6.1078 %}
+      {% set equ_4_vp2 = equ_4_vp1 |log(10) %}
+      {% set equ_4_td = (param_b * equ_4_vp2) / (param_a - equ_4_vp2) %}
+      {{ equ_4_td | round(1) }}
+

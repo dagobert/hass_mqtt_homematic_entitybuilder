@@ -1,0 +1,13 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/UNREACH"
+device_class: "connectivity"
+value_template: >-
+        {% if value_json.val == false %}
+        ON
+        {% else %}
+        OFF
+        {% endif %}
+qos: 0
+

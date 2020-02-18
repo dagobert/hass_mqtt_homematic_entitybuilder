@@ -1,0 +1,23 @@
+platform: mqtt
+schema: template
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/LEVEL"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL"
+command_on_template: >-
+        {% if brightness is defined %}
+          {{ '%.2f'%(brightness / 255 + 0.1) }}
+        {% else %}
+          1.0
+        {% endif %}
+command_off_template: 0.0
+state_template: >-
+  {% if value_json.val > 0 %}
+    on
+  {% else %}
+    off
+  {% endif %}
+brightness_template: "{{ '%.0f'%(value_json.val * 255) }}"
+retain: true
+qos: 0
+

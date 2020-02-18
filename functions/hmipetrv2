@@ -1,0 +1,307 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP eTRV2 hardware
+#
+
+###########
+# Channel 1
+###########
+
+function func_create_hmip_etrv2_boostmode() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_boostmode:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-boostmode.yaml"
+
+	# entity type
+  local l_entityType="switch"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777boostmode"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Boost Modus"
+
+  func_generateEntity
+
+}
+
+
+function func_create_hmip_etrv2_windowsstate() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_windowsstate:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-windowstate.yaml"
+
+	# entity type
+  local l_entityType="switch"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777windowstate"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Fenster Status"
+
+  func_generateEntity
+
+}
+
+
+function func_create_hmip_etrv2_activeprofile() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_activeprofile:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-activeprofile.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777activeprofile"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Aktives Profil"
+
+  func_generateEntity
+
+}
+
+# Sensor showing the current state of the valve
+# @string subdirectory of the created sensor file
+#
+function func_create_hmip_etrv2_valvestate() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_valvestate:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-valvestate.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777valvestate"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Ventil Status"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_etrv2_level() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_level:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-level.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777level"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Ventil-Öffnungsgrad"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_etrv2_levelstatus() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_levelstatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-levelstatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777levelstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Ventil Status"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_etrv2_setpointmode() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_setpointmode:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-setpointmode.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777setpointmode"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Modus"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_etrv2_setpointtemperature() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_setpointtemperature:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-setpointtemperature.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777setpointtemperature"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Zieltemperatur"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_etrv2_frostprotection() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_etrv2_frostprotection:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-frostprotection.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777frostprotection"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Frostschutz"
+
+  func_generateEntity
+
+}
+
+
+function func_create_hmip_etrv2_automationvirtualhmclimatetopics() {
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_etrv2-automationvirtualhmclimatetopics.yaml"
+
+	# entity type
+  local l_entityType="automation"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777automationvirtualhmclimatetopics"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix=""
+
+
+	# Check existance of templates
+	if [ ! -e "$templateDir/$l_template" ]; then
+	  echo "Template file does not exist: $templateDir/$l_template"
+		exit 1
+	fi
+
+  local l_entitySubLocation=${name//_/\/}
+  [ $DEBUG > 0 ] && echo "entitysublocation for entities of the device: $l_entitySubLocation"
+
+  ## copy templates and replace placeholders in templates
+	local l_entityTypeDir=${entityTypeSubdirectories[$l_entityType]}
+  local l_entityAbsLocation="$habasepath/${l_entityTypeDir}/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
+  local l_entityName="${name}${l_sensorSuffix}"
+  local l_uniqueId="${name}${l_sensorSuffix}"
+
+  mkdir -p -v ${l_entityAbsLocation%/*}
+  cp -v "$templateDir/${l_template}" ${l_entityAbsLocation}
+  sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
+  sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
+  sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
+  sed -i "s/__BASEENTITYNAME__/${name}/" ${l_entityAbsLocation}
+
+  ## Device specific customization
+  local l_customizationAbsLocation="$habasepath/customizations/entities/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
+  local l_friendlyName=$(echo " $name"| sed -e 's/_/ /g' -e 's/[\^ ]./\U&/g' -e 's/^ //')
+  l_friendlyName="${l_friendlyName} ${l_friendlyNameSuffix}"
+
+	# TODO: Do we need friendly name?
+
+}
+
+

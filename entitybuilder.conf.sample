@@ -1,0 +1,31 @@
+
+# subdirectories for entity types such as light, switch, sensor...
+# The first part is the entity type as you use it in HASS the second
+# is the include directory
+declare -A entityTypeSubdirectories
+entityTypeSubdirectories=( ["automation"]="automations" ["binary_sensor"]="binary_sensors" ["sensor"]="sensors" ["climate"]="climate" ["light"]="lights" ["switch"]="switches" )
+
+
+# Subdirectory for generated files within entity type directories
+# This is useful because you can delete all generated files at
+# once without having to single handedly have to find them.
+subdirForGenerated="ebGenerated"
+
+
+# CCU MQTT topic prefix
+# Everything before "set" and "status" which you configured in
+# NodeRed
+ccuMqttTopicPrefix="ug/hm"
+
+
+# Home Assistant MQTT topic prefix for
+# This topic is used for eg. WTH because these entities "send" topics
+# that are not compatible with how the CCU needs them. Automations
+# will "convert" them and provide the correct value
+hassVirtualnmMqttTopicPrefix="ug/hass/virtualhm"
+
+
+# Write debug output to command line
+DEBUG=1
+
+

@@ -1,0 +1,10 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/RSSI_DEVICE"
+value_template: >-
+  {{ value_json.val }}
+unit_of_measurement: "dBm"
+device_class: "signal_strength"
+qos: 0
+

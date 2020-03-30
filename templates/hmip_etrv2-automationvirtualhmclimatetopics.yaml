@@ -1,6 +1,5 @@
 - id: __UNIQUEID___action
   alias: __ENTITYNAME___action
-  hide_entity: true
   initial_state: true
   trigger:
     - platform: state

@@ -6,7 +6,7 @@
 
 
 # Entitybuilder
-progEntitybuilder="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant/mytools/entitybuilder"
+progEntitybuilder="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant/mytools/hass_mqtt_homematic_entitybuilder/entitybuilder"
 
 # Home Assistant base path
 habasepath="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant"

@@ -3,6 +3,59 @@
 # Specific functions for Homematic IP BSM hardware
 #
 
+##########
+# Create
+##########
+
+function func_create_hmip_bsm() {
+
+	# Template for this entity
+	local l_template="hmip_bsm-lightswitch.yaml"
+
+	# entity type
+	local l_entityType="light"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777dimmer"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+	# Kanal 0
+	func_create_ghm_actualtemperature "nonessential" "0"
+	func_create_ghm_actualtemperaturestatus "nonessential" "0"
+
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+
+	# Kanal 7
+	func_create_hmip_bsm_current "essential"
+	func_create_hmip_bsm_currentstatus "nonessential"
+	func_create_hmip_bsm_energycounter "essential"
+	func_create_hmip_bsm_energycounteroverflow "nonessential"
+	func_create_hmip_bsm_frequency "essential"
+	func_create_hmip_bsm_frequencystatus "nonessential"
+	func_create_hmip_bsm_power "essential"
+	func_create_hmip_bsm_powerstatus "nonessential"
+	func_create_hmip_bsm_voltage "essential"
+	func_create_hmip_bsm_voltagestatus "nonessential"
+}
+
+
+
+##########
+# Extra functions
+##########
 
 # Channel 7
 function func_create_hmip_bsm_current() {

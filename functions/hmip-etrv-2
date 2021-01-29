@@ -53,7 +53,7 @@ function func_create_hmip_etrv2() {
 	func_create_hmip_etrv2_frostprotection "nonessential"
 
 	# create virtual sensors, actors and automations
-	func_create_hmip_etrv2_automationvirtualhmclimatetopics
+	func_create_hmip_etrv2_automationvirtualhmclimatetopics "essential"
 
 }
 

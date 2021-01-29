@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Specific functions for HB-UNI-Sen-TEMP-DS18B20 hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hb_unisentempds18b20() {
+
+	# Template for this entity
+	local l_template="hb_unisentempds18b20.yaml"
+
+	# entity type
+	local l_entityType="sensor"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777temp1"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix="Temperature 1"
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+	func_create_ghm_lowbat "essential"
+	func_create_ghm_unreach "nonessential"
+
+  # special sensors
+  func_create_hb_unisentempds18b20-temp "essential" "2"
+  func_create_hb_unisentempds18b20-temp "essential" "3"
+  func_create_hb_unisentempds18b20-temp "essential" "4"
+  func_create_hb_unisentempds18b20-temp "essential" "5"
+  func_create_hb_unisentempds18b20-temp "essential" "6"
+  func_create_hb_unisentempds18b20-temp "essential" "7"
+  func_create_hb_unisentempds18b20-temp "essential" "8"
+
+}
+
+
+function func_create_hb_unisentempds18b20-temp() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hb_unisentempds18b20-temp:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="hb_unisentempds18b20.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777temp${l_deviceChannel}"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Temperature ${l_deviceChannel}"
+
+  func_generateEntity
+
+}

@@ -113,15 +113,14 @@ function func_create_ghm_unreach() {
 }
 
 function func_create_ghm_errorcode() {
-	if [ $# -ne 1 ]; then
+	if [ $# -ne 2 ]; then
 				 echo "func_create_ghm_errorcode:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
-
-	local l_deviceChannel=0
+	local l_deviceChannel=$2
   
   # Template for this entity
 	local l_template="ghm-errorcode.yaml"
@@ -283,3 +282,62 @@ function func_create_ghm_actualtemperaturestatus() {
 }
 
 
+# Creates binary sensor CONFIG_PENDING
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_configpending() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_configpending:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-configpending.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777configpending"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Konfiguration wartet"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+
+  func_generateEntity
+
+}
+
+# Creates binary sensor ERROR_OVERHEAT
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_erroroverheat() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_erroroverheat:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-erroroverheat.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777erroroverheat"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Fehler durch Überhitzung"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+
+  func_generateEntity
+
+}

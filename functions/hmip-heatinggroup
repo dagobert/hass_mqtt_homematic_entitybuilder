@@ -7,10 +7,10 @@
 # Create
 ##########
 
-function func_create_ccu_heatinggroup() {
+function func_create_hmip_heatinggroup() {
 
 	# Template for this entity
-	local l_template="ccu_group-heating.yaml"
+	local l_template="hmip_group-heating.yaml"
 
 	# entity type
 	local l_entityType="climate"

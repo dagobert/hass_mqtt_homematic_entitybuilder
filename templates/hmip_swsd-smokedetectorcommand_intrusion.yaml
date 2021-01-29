@@ -1,0 +1,19 @@
+# This is a switch to set boost mode
+#
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SMOKE_DETECTOR_COMMAND"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SMOKE_DETECTOR_ALARM_STATUS"
+payload_on: 2
+payload_off: 1
+state_on: "ON"
+state_off: "OFF"
+value_template: >-
+        {% if value_json.val == 2 %}
+          ON
+        {% else %}
+          OFF
+        {% endif %}
+retain: true
+qos: 0

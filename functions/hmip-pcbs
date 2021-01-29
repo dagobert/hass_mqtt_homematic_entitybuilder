@@ -1,21 +1,21 @@
 #!/bin/bash
 #
-# Specific functions for Homematic IP BDT hardware
+# Specific functions for Homematic IP PCBS hardware
 #
 
 #######
 # Create
 #######
 
-function func_create_hmip_bdt() {
+function func_create_hmip_pcbs() {
 	# Template for this entity
-	local l_template="hmip_bdt-lightdimmer.yaml"
+	local l_template="hmip_pcbs-switch.yaml"
 
 	# entity type
-	local l_entityType="light"
+	local l_entityType="switch"
 
 	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777dimmer"
+	local l_sensorSuffix="777switch"
 
 	# suffix for friendly_name used for UI
 	local l_friendlyNameSuffix=""
@@ -33,6 +33,10 @@ function func_create_hmip_bdt() {
 	func_create_ghm_dutycycle "nonessential"
 	func_create_ghm_unreach "nonessential"
 	func_create_ghm_errorcode "nonessential" "0"
+	func_create_ghm_actualtemperature "nonessential" "0"
+	func_create_ghm_actualtemperaturestatus "nonessential" "0"
+        func_create_ghm_configpending "nonessential" "0"
+        func_create_ghm_erroroverheat "nonessential" "0"
 
 }
 

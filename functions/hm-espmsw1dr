@@ -1,0 +1,193 @@
+#!/bin/bash
+#
+# Specific functions for Homematic LC-Sw1-DR hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hm_espmsw1dr() {
+
+	# Template for this entity
+	local l_template="hm_espmsw1dr-lightswitch.yaml"
+
+	# entity type
+	local l_entityType="light"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777switch"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+        # general sensors
+        func_create_ghm_unreach "nonessential"
+
+        # specific sensors
+        func_create_hm_espmsw1dr_current "essential"
+        func_create_hm_espmsw1dr_energycounter "essential"
+        func_create_hm_espmsw1dr_frequency "essential"
+        func_create_hm_espmsw1dr_power "essential"
+        func_create_hm_espmsw1dr_voltage "essential"
+
+}
+
+
+
+##########
+# Extra functions
+##########
+
+# Channel 2
+function func_create_hm_espmsw1dr_current() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hm_espmsw1dr_current:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=2
+
+  # Template for this entity
+	local l_template="hm_espmsw1dr-current.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777current"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Strom"
+
+  func_generateEntity
+
+}
+
+
+# Channel 2
+function func_create_hm_espmsw1dr_energycounter() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hm_espmsw1dr_energycounter:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=2
+
+  # Template for this entity
+	local l_template="hm_espmsw1dr-energycounter.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777energycounter"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Energiezähler"
+
+  func_generateEntity
+
+}
+
+
+# Channel 2
+function func_create_hm_espmsw1dr_frequency() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hm_espmsw1dr_frequency:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=2
+
+  # Template for this entity
+	local l_template="hm_espmsw1dr-frequency.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777frequency"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Frequenz"
+
+  func_generateEntity
+
+}
+
+
+# Channel 2
+function func_create_hm_espmsw1dr_power() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hm_espmsw1dr_power:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=2
+
+  # Template for this entity
+	local l_template="hm_espmsw1dr-power.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777power"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Leistung"
+
+  func_generateEntity
+
+}
+
+
+# Channel 2
+function func_create_hm_espmsw1dr_voltage() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hm_espmsw1dr_voltage:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=2
+
+  # Template for this entity
+	local l_template="hm_espmsw1dr-voltage.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777voltage"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Spannung"
+
+  func_generateEntity
+
+}
+
+

@@ -1,0 +1,23 @@
+# Meaning of values
+# integer
+# 0 = IDLE_OFF
+# 1 = PRIMARY_ALARM
+# 2 = INTRUSION_ALARM
+# 3 = SECONDARY_ALARM
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SMOKE_DETECTOR_ALARM_STATUS"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SMOKE_DETECTOR_ALARM_STATUS"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "IDLE_OFF",
+    "PRIMARY_ALARM",
+    "INTRUSION_ALARM",
+    "SECONDARY_ALARM" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+qos: 0
+

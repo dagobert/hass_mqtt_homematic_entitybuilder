@@ -90,11 +90,14 @@
   alias: __ENTITYNAME___modestate
   initial_state: true
   trigger:
-    - platform: mqtt
-      topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_MODE"
+    - platform: state
+      entity_id: sensor.__NAME__777setpointmode
     - platform: state
       entity_id: sensor.__NAME__777setpointtemperature
       to: "4.5"
+    - platform: state  
+      entity_id: sensor.__NAME__777setpointtemperature
+      from: "4.5"
   action:
     - service: mqtt.publish
       data_template:

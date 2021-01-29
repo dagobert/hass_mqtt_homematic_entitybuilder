@@ -29,20 +29,22 @@ functionsSubDirectory="functions"
 
 overwriteCustomization="false"
 hideEntityFromUI="none"
-while getopts "m:n:c:p:CH:" opt; do
+while getopts "x:m:n:c:p:CH:" opt; do
   case $opt in
     p)  habasepath=$OPTARG
 	      ;;
+    x)  mqttPrefix=$OPTARG
+              ;;
     c)  channel=$OPTARG
-        ;;
+              ;;
     m)  model=$OPTARG
 	      ;;
     n)  name=$OPTARG
 	      ;;
-		C)  overwriteCustomization="true"
-				;;
-		H)  hideEntityFromUI=$OPTARG
-				;;
+    C)  overwriteCustomization="true"
+              ;;
+    H)  hideEntityFromUI=$OPTARG
+              ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
         exit 1
@@ -59,11 +61,10 @@ done
 [ "$habasepath" == "" ] && { echo "-p missing for Home Assistant configuration path"; exit 1; }
 [ -d "$habasepath" ] || { echo "Home Assistant configuration path does not exist"; exit 1; }
 
-if [ "$listFile" == "" ]; then
-  [ "$channel" == "" ] && { echo "-c missing for channel ID"; exit 1; }
-  [ "$model" == "" ] && { echo "-m missing for model"; exit 1; }
-  [ "$name" == "" ] && { echo "-n missing for name"; exit 1; }
-fi
+[ "$mqttPrefix" == "" ] && { echo "-x missing for mqtt prefix"; exit 1; }
+[ "$channel" == "" ] && { echo "-c missing for channel ID"; exit 1; }
+[ "$model" == "" ] && { echo "-m missing for model"; exit 1; }
+[ "$name" == "" ] && { echo "-n missing for name"; exit 1; }
 
 if [[ "$hideEntityFromUI" != "none" && "$hideEntityFromUI" != "nonessential" && "$hideEntityFromUI" != "all" ]]; then
 	echo "-H wrong parameter!. Only \"none\", \"nonessential\""
@@ -119,8 +120,8 @@ function func_generateEntity() {
   sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
   sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
   sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
-  sed -i "s|__CCUMQTTTOPIC__|$ccuMqttTopicPrefix|" ${l_entityAbsLocation}
-  sed -i "s|__HASSVIRTUALHMTOPIC__|$hassVirtualnmMqttTopicPrefix|" ${l_entityAbsLocation}
+  sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
+  sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
 
 	# Manage hide in UI
 	local l_hidden="false"
@@ -130,21 +131,21 @@ function func_generateEntity() {
 		l_hidden="true"
 	fi
 
-  ## Device specific customization
-  local l_customizationAbsLocation="$habasepath/customizations/entities/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
-  local l_friendlyName=$(echo " $name"| sed -e 's/_/ /g' -e 's/[\^ ]./\U&/g' -e 's/^ //')
-  l_friendlyName="${l_friendlyName} ${l_friendlyNameSuffix}"
-
-  mkdir -p -v ${l_customizationAbsLocation%/*}
-  if [[ ! -e "$l_customizationAbsLocation" ||
-          $overwriteCustomization == "true" ]]; then
-    cat <<EOF >$l_customizationAbsLocation
-${l_entityType}.${l_entityName}:
-  friendly_name: ${l_friendlyName}
-  hidden: $l_hidden
-
-EOF
-  fi
+#  ## Device specific customization
+#  local l_customizationAbsLocation="$habasepath/customizations/entities/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
+#  local l_friendlyName=$(echo " $name"| sed -e 's/_/ /g' -e 's/[\^ ]./\U&/g' -e 's/^ //')
+#  l_friendlyName="${l_friendlyName} ${l_friendlyNameSuffix}"
+#
+#  mkdir -p -v ${l_customizationAbsLocation%/*}
+#  if [[ ! -e "$l_customizationAbsLocation" ||
+#          $overwriteCustomization == "true" ]]; then
+#    cat <<EOF >$l_customizationAbsLocation
+#${l_entityType}.${l_entityName}:
+#  friendly_name: ${l_friendlyName}
+#  hidden: $l_hidden
+#
+#EOF
+#  fi
 
 }
 
@@ -158,14 +159,28 @@ case $model in
    				      ;;
   hmip_bsm)     func_create_hmip_bsm
   				      ;;
-  hmip_etrv2)   func_create_hmip_etrv2
+  hmip_froll)   func_create_hmip_froll
+                                      ;;
+  hmip_fsm)     func_create_hmip_fsm
   				      ;;
+  hmip_pcbs)    func_create_hmip_pcbs
+                                      ;;
   hmip_swdoi)   func_create_hmip_swdoi
   				      ;;
+  hmip_swsd)    func_create_hmip_swsd
+                                      ;;
   hmip_wth2)    func_create_hmip_wth2
   				      ;;
-  ccu_heatinggroup)   func_create_ccu_heatinggroup
-  				            ;;
+  hmip_etrv2)   func_create_hmip_etrv2
+  				      ;;
+  hmip_heatinggroup)   func_create_hmip_heatinggroup
+  				      ;;
+  hm_lcsw1dr)   func_create_hm_lcsw1dr
+                                      ;;
+  hm_espmsw1dr)   func_create_hm_espmsw1dr
+                                      ;;
+  hb_unisentempds18b20)  func_create_hb_unisentempds18b20
+                                      ;;
   \?)           echo "Invalid model! Supported models are"
 	        echo "  hmip_bdt, hmip_swdoi"
                 exit 1

@@ -1,0 +1,313 @@
+#!/bin/bash
+#
+# Functions that is common to many Homematic (IP) hardware
+#
+
+# Creates sensor CURRENT
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_current() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_current:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-current.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777current"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Strom"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor CURRENT_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_currentstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_currentstatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-currentstatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777currentstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Strom Status"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor ENERGY_COUNTER
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_energycounter() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_energycounter:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-energycounter.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777energycounter"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Energiezähler"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor ENERGY_COUNTER_OVERFLOW
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_energycounteroverflow() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_energycounteroverflow:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-energycounteroverflow.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777energycounteroverflow"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Energiezähler Zählerüberlauf"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor FREQUENCY
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_frequency() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_frequency:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-frequency.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777frequency"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Frequenz"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor FREQUENCY_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_frequencystatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_frequencystatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-frequencystatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777frequencystatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Frequenz Status"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor POWER
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_power() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_power:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-power.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777power"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Leistung"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor POWER_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_powerstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_powerstatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-powerstatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777powerstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Leistung Status"
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor VOLTAGE
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_voltage() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_voltage:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-voltage.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777voltage"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Spannung"
+
+  func_generateEntity
+
+}
+
+# Creates sensor VOLTAGE_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_voltagestatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_voltagestatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="mhm-voltagestatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777voltagestatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Spannung Status"
+
+  func_generateEntity
+
+}
+

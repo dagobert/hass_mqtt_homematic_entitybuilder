@@ -1,0 +1,115 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP BSM hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hmip_froll() {
+
+	# Template for this entity
+	local l_template="hmip_froll-cover.yaml"
+
+	# entity type
+	local l_entityType="cover"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777cover"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+	# Kanal 0
+	func_create_ghm_actualtemperature "nonessential" "0"
+	func_create_ghm_actualtemperaturestatus "nonessential" "0"
+        func_create_ghm_configpending "nonessential" "0"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_errorcode "nonessential" "0"
+	func_create_ghm_erroroverheat "nonessential" "0"
+	func_create_ghm_operatingvoltage "nonessential"
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_unreach "nonessential"
+
+	# Kanal 4
+	#func_create_hmip_froll_levelstatus "nonessential" "4"
+
+
+        # create virtual sensors, actors and automations
+	# TODO: Need to implement CCU direct connected devices or fake connected
+	#       devices by handing over the MQTT channel of the radiator / valve
+	#       device. WTH does not have a valve
+	func_create_hmip_froll_automationvirtualhmcovertopics "essential"
+}
+
+
+##########
+# Extra functions
+##########
+
+## Channel 1
+function func_create_hmip_froll_levelstatus() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_froll_levelstatus:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=3
+
+  # Template for this entity
+	local l_template="hmip_froll-levelstatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777boostmode"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Boost Modus"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_froll_automationvirtualhmcovertopics() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_froll_automationvirtualhmcovertopics:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=4
+
+  # Template for this entity
+  local l_template="hmip_froll-automationvirtualhmcovertopics.yaml"
+
+  # entity type
+  local l_entityType="automation"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777automationvirtualcovertopics"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix=""
+
+  func_generateEntity
+
+
+}
+

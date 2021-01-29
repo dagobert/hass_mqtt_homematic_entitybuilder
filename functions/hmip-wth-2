@@ -56,7 +56,7 @@ function func_create_hmip_wth2() {
 	# TODO: Need to implement CCU direct connected devices or fake connected
 	#       devices by handing over the MQTT channel of the radiator / valve
 	#       device. WTH does not have a valve
-	func_create_hmip_etrv2_automationvirtualhmclimatetopics
+	func_create_hmip_etrv2_automationvirtualhmclimatetopics "essential"
 
 }
 

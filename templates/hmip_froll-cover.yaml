@@ -1,0 +1,15 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/COMMAND"
+position_topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/LEVEL"
+position_open: 100
+position_closed: 0
+payload_close: "close"
+payload_open: "open"
+payload_stop: "stop"
+set_position_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/LEVEL"
+set_position_template: '{{ position / 100 |float }}'
+retain: false
+qos: 0
+

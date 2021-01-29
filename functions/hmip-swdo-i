@@ -30,13 +30,11 @@ function func_create_hmip_swdoi() {
 
   # general homematic sensors
 	func_create_ghm_sabotage "essential"
-
 	func_create_ghm_operatingvoltage "nonessential"
 	func_create_ghm_lowbat "essential"
-
 	func_create_ghm_rssidevice "nonessential"
 	func_create_ghm_dutycycle "nonessential"
 	func_create_ghm_unreach "nonessential"
-	func_create_ghm_errorcode "nonessential"
+	func_create_ghm_errorcode "nonessential" "0"
 
 }

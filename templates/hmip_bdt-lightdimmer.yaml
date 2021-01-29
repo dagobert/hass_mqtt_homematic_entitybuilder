@@ -18,6 +18,6 @@ state_template: >-
     off
   {% endif %}
 brightness_template: "{{ '%.0f'%(value_json.val * 255) }}"
-retain: true
+retain: false
 qos: 0
 

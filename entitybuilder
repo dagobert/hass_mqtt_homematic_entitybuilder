@@ -35,9 +35,9 @@ while getopts "m:n:c:p:CH:" opt; do
 	      ;;
     n)  name=$OPTARG
 	      ;;
-		C)  overwriteCustomization="true"
+    C)  overwriteCustomization="true"
 				;;
-		H)  hideEntityFromUI=$OPTARG
+    H)  hideEntityFromUI=$OPTARG
 				;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
@@ -253,6 +253,54 @@ function func_create_hmip_swdoi() {
 }
 
 
+function func_create_hmip_smiv3() {
+
+	# Template for this entity
+	local l_template="hmip_smi-motion.yaml"
+
+	# entity type
+	local l_entityType="binary_sensor"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777motion"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+	func_create_ghm_sabotage "essential"
+
+	func_create_ghm_operatingvoltage "nonessential"
+	func_create_ghm_operatingvoltagestatus "nonessential" 0
+	func_create_ghm_lowbat "essential"
+
+	func_create_ghm_configpending "nonessential"
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_errorcode "nonessential"
+
+	# device specific
+	func_create_hmip_smi_currentillumination "essential"
+	func_create_hmip_smi_currentilluminationstatus "nonessential"
+	func_create_hmip_smi_illumination "essential"
+	func_create_hmip_smi_illuminationstatus "nonessential"
+	func_create_hmip_smi_motiondetectionactive "essential"
+	
+	func_create_hmip_smi_motiondetection"essential"
+	func_create_hmip_smi_resetmotion "essential"
+
+}
+
+
 function func_create_hmip_etrv2() {
 
 	# Template for this entity
@@ -421,6 +469,8 @@ case $model in
   				      ;;
   hmip_etrv2)   func_create_hmip_etrv2
   				      ;;
+  hmip_smiv3)     func_create_hmip_smi
+  				      ;;
   hmip_swdoi)   func_create_hmip_swdoi
   				      ;;
   hmip_wth2)    func_create_hmip_wth2
@@ -428,9 +478,9 @@ case $model in
   ccu_heatinggroup)   func_create_ccu_heatinggroup
   				            ;;
   \?)           echo "Invalid model! Supported models are"
-				        echo "  hmip_bdt, hmip_swdoi"
-  					    exit 1
-	  				    ;;
+	        echo "  hmip_bdt, hmip_bsm, hmip_etrv2, hmip_swdoi"
+                exit 1
+	        ;;
 esac
 
 

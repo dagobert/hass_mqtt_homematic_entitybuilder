@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# Specific functions for Homematic LC-Sw1-DR hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hm_lcsw1dr() {
+
+	# Template for this entity
+	local l_template="hm_lcsw1dr-lightswitch.yaml"
+
+	# entity type
+	local l_entityType="light"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777switch"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+        # general sensors
+        func_create_ghm_unreach "nonessential"
+
+}
+
+

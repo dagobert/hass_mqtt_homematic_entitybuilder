@@ -5,11 +5,6 @@
 # for each line. See example file for help
 
 
-# Entitybuilder
-progEntitybuilder="./entitybuilder"
-
-# Home Assistant base path
-habasepath="/root/config/"
 
 configfile="./entitybuilder_fromFile.conf"
 justPrint=0
@@ -53,21 +48,23 @@ for line in ${linearray[@]}; do
 	lineplit=( ${line//,/ } )
 
 	rewriteCustomization=
-	if [[ "${lineplit[4]}" == "true" ]]; then
+	if [[ "${lineplit[5]}" == "true" ]]; then
     rewriteCustomization="-C"
 	fi
 
 	if [[ "$justPrint" == 1 ]]; then
-		echo bash $progEntitybuilder -p $habasepath -c ${lineplit[0]} -m ${lineplit[1]} -n ${lineplit[2]} -H ${lineplit[3]} $rewriteCustomization
+		echo bash $progEntitybuilder -p $habasepath -x ${lineplit[0]} -c ${lineplit[1]} -m ${lineplit[2]} -n ${lineplit[3]} -H ${lineplit[4]} $rewriteCustomization
   else
 		bash $progEntitybuilder -p $habasepath \
-			-c ${lineplit[0]} -m ${lineplit[1]} -n ${lineplit[2]} -H ${lineplit[3]} $rewriteCustomization
+			-x ${lineplit[0]} -c ${lineplit[1]} -m ${lineplit[2]} -n ${lineplit[3]} \
+                        -H ${lineplit[4]} $rewriteCustomization
+                if [ $? == 1 ]; then
+                  echo "Generating failed: ${lineplit[0]}   ${lineplit[2]}"
+                  break
+                fi
 	fi
 
 done
-
-
-
 
 
 

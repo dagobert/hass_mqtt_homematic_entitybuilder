@@ -1,0 +1,10 @@
+# HmIP-SWSD Smoke detector
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/TIME_OF_OPERATION"
+value_template: >-
+  {{ value_json.val }}
+qos: 0
+

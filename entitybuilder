@@ -17,26 +17,32 @@ else
   exit 1
 fi
 
-# Function files
-declare -a functionFiles
-functionFiles=( "ghm" "hmipbsm" "hmipetrv2" "hmipwth2" )
+
+# Templates directory
+templatesSubDirectory="templates"
+
+# Functions directory
+functionsSubDirectory="functions"
+
 
 # TODO: Add switch for Mqtt topics
 
 overwriteCustomization="false"
 hideEntityFromUI="none"
-while getopts "m:n:c:p:CH:" opt; do
+while getopts "x:m:n:c:p:CH:" opt; do
   case $opt in
     p)  habasepath=$OPTARG
 	      ;;
+    x)  mqttPrefix=$OPTARG
+              ;;
     c)  channel=$OPTARG
-        ;;
+              ;;
     m)  model=$OPTARG
 	      ;;
     n)  name=$OPTARG
 	      ;;
     C)  overwriteCustomization="true"
-				;;
+	      ;;
     H)  hideEntityFromUI=$OPTARG
 				;;
     \?)
@@ -55,29 +61,33 @@ done
 [ "$habasepath" == "" ] && { echo "-p missing for Home Assistant configuration path"; exit 1; }
 [ -d "$habasepath" ] || { echo "Home Assistant configuration path does not exist"; exit 1; }
 
-if [ "$listFile" == "" ]; then
-  [ "$channel" == "" ] && { echo "-c missing for channel ID"; exit 1; }
-  [ "$model" == "" ] && { echo "-m missing for model"; exit 1; }
-  [ "$name" == "" ] && { echo "-n missing for name"; exit 1; }
-fi
+[ "$mqttPrefix" == "" ] && { echo "-x missing for mqtt prefix"; exit 1; }
+[ "$channel" == "" ] && { echo "-c missing for channel ID"; exit 1; }
+[ "$model" == "" ] && { echo "-m missing for model"; exit 1; }
+[ "$name" == "" ] && { echo "-n missing for name"; exit 1; }
 
 if [[ "$hideEntityFromUI" != "none" && "$hideEntityFromUI" != "nonessential" && "$hideEntityFromUI" != "all" ]]; then
 	echo "-H wrong parameter!. Only \"none\", \"nonessential\""
 	exit 1
 fi
 
+templateDir="${pathOfThisScript}/${templatesSubDirectory}"
+# Check existance of tempates directory
+if [ ! -d "${templateDir}" ]; then
+  echo "Templates directory does not exist: ${templateDir}"
+  exit 1
+fi
 
-templateDir="${pathOfThisScript}/templates"
+functionsDir="${pathOfThisScript}/${functionsSubDirectory}"
+# Check existance of functions directory
+if [ ! -d "${functionsDir}" ]; then
+  echo "Functions directory does not exist: ${functionsDir}"
+  exit 1
+fi
+for ff in ${functionsDir}/*; do
 
-# Check existance of functions
-for ff in "${functionFiles[@]}"; do
-  if [ ! -e "${pathOfThisScript}/functions/$ff" ]; then
-		echo "Function file does not exist: ${pathOfThisScript}/functions/$ff"
-	 	exit 1
-	fi
-
-	echo "Loading ${pathOfThisScript}/functions/${ff}..."
-	source "${pathOfThisScript}/functions/$ff"
+	echo "Loading functions ${ff}..."
+	source "${ff}"
 done
 
 
@@ -110,8 +120,8 @@ function func_generateEntity() {
   sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
   sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
   sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
-  sed -i "s|__CCUMQTTTOPIC__|$ccuMqttTopicPrefix|" ${l_entityAbsLocation}
-  sed -i "s|__HASSVIRTUALHMTOPIC__|$hassVirtualnmMqttTopicPrefix|" ${l_entityAbsLocation}
+  sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
+  sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
 
 	# Manage hide in UI
 	local l_hidden="false"
@@ -121,142 +131,29 @@ function func_generateEntity() {
 		l_hidden="true"
 	fi
 
-  ## Device specific customization
-  local l_customizationAbsLocation="$habasepath/customizations/entities/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
-  local l_friendlyName=$(echo " $name"| sed -e 's/_/ /g' -e 's/[\^ ]./\U&/g' -e 's/^ //')
-  l_friendlyName="${l_friendlyName} ${l_friendlyNameSuffix}"
-
-  mkdir -p -v ${l_customizationAbsLocation%/*}
-  if [[ ! -e "$l_customizationAbsLocation" ||
-          $overwriteCustomization == "true" ]]; then
-    cat <<EOF >$l_customizationAbsLocation
-${l_entityType}.${l_entityName}:
-  friendly_name: ${l_friendlyName}
-  hidden: $l_hidden
-
-EOF
-  fi
-
-}
-
-
-########
-######## Hardware devices
-########
-function func_create_hmip_bdt() {
-	# Template for this entity
-	local l_template="hmip_bdt-lightdimmer.yaml"
-
-	# entity type
-	local l_entityType="light"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777dimmer"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  ## general homematic sensors
-	func_create_ghm_rssidevice "nonessential"
-	func_create_ghm_rssipeer "nonessential"
-	func_create_ghm_dutycycle "nonessential"
-	func_create_ghm_unreach "nonessential"
-	func_create_ghm_errorcode "nonessential"
+#  ## Device specific customization
+#  local l_customizationAbsLocation="$habasepath/customizations/entities/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
+#  local l_friendlyName=$(echo " $name"| sed -e 's/_/ /g' -e 's/[\^ ]./\U&/g' -e 's/^ //')
+#  l_friendlyName="${l_friendlyName} ${l_friendlyNameSuffix}"
+#
+#  mkdir -p -v ${l_customizationAbsLocation%/*}
+#  if [[ ! -e "$l_customizationAbsLocation" ||
+#          $overwriteCustomization == "true" ]]; then
+#    cat <<EOF >$l_customizationAbsLocation
+#${l_entityType}.${l_entityName}:
+#  friendly_name: ${l_friendlyName}
+#  hidden: $l_hidden
+#
+#EOF
+#  fi
 
 }
 
 
-function func_create_hmip_bsm() {
+function func_create_hmip_smi() {
 
 	# Template for this entity
-	local l_template="hmip_bsm-lightswitch.yaml"
-
-	# entity type
-	local l_entityType="light"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777dimmer"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  # general homematic sensors
-	# Kanal 0
-	func_create_ghm_actualtemperature "nonessential" "0"
-	func_create_ghm_actualtemperaturestatus "nonessential" "0"
-
-	func_create_ghm_rssidevice "nonessential"
-	func_create_ghm_rssipeer "nonessential"
-	func_create_ghm_dutycycle "nonessential"
-	func_create_ghm_unreach "nonessential"
-
-	# Kanal 7
-	func_create_hmip_bsm_current "essential"
-	func_create_hmip_bsm_currentstatus "nonessential"
-	func_create_hmip_bsm_energycounter "essential"
-	func_create_hmip_bsm_energycounteroverflow "nonessential"
-	func_create_hmip_bsm_frequency "essential"
-	func_create_hmip_bsm_frequencystatus "nonessential"
-	func_create_hmip_bsm_power "essential"
-	func_create_hmip_bsm_powerstatus "nonessential"
-	func_create_hmip_bsm_voltage "essential"
-	func_create_hmip_bsm_voltagestatus "nonessential"
-}
-
-
-function func_create_hmip_swdoi() {
-
-	# Template for this entity
-	local l_template="hmip_swdoi-windowdoorcontact.yaml"
-
-	# entity type
-	local l_entityType="binary_sensor"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777kontakt"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  # general homematic sensors
-	func_create_ghm_sabotage "essential"
-
-	func_create_ghm_operatingvoltage "nonessential"
-	func_create_ghm_lowbat "essential"
-
-	func_create_ghm_rssidevice "nonessential"
-	func_create_ghm_dutycycle "nonessential"
-	func_create_ghm_unreach "nonessential"
-	func_create_ghm_errorcode "nonessential"
-
-}
-
-
-function func_create_hmip_smiv3() {
-
-	# Template for this entity
-	local l_template="hmip_smi-motion.yaml"
+	local l_template="hmip_smi-motiondetector.yaml"
 
 	# entity type
 	local l_entityType="binary_sensor"
@@ -278,7 +175,6 @@ function func_create_hmip_smiv3() {
 	func_create_ghm_sabotage "essential"
 
 	func_create_ghm_operatingvoltage "nonessential"
-	func_create_ghm_operatingvoltagestatus "nonessential" 0
 	func_create_ghm_lowbat "essential"
 
 	func_create_ghm_configpending "nonessential"
@@ -288,174 +184,8 @@ function func_create_hmip_smiv3() {
 	func_create_ghm_unreach "nonessential"
 	func_create_ghm_errorcode "nonessential"
 
-	# device specific
-	func_create_hmip_smi_currentillumination "essential"
-	func_create_hmip_smi_currentilluminationstatus "nonessential"
-	func_create_hmip_smi_illumination "essential"
-	func_create_hmip_smi_illuminationstatus "nonessential"
-	func_create_hmip_smi_motiondetectionactive "essential"
-	
-	func_create_hmip_smi_motiondetection"essential"
-	func_create_hmip_smi_resetmotion "essential"
-
 }
 
-
-function func_create_hmip_etrv2() {
-
-	# Template for this entity
-	local l_template="hmip_etrv2-radiatorvalve.yaml"
-
-	# entity type
-	local l_entityType="climate"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777radiator"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  # general homematic sensors
-
-	func_create_ghm_operatingvoltage "nonessential"
-	func_create_ghm_lowbat "essential"
-
-	func_create_ghm_rssidevice "nonessential"
-	func_create_ghm_rssipeer "nonessential"
-	func_create_ghm_dutycycle "nonessential"
-	func_create_ghm_unreach "nonessential"
-
-	# specific sensors
-	func_create_ghm_actualtemperature "nonessential" "1"
-	func_create_ghm_actualtemperaturestatus "nonessential" "1"
-
-	func_create_hmip_etrv2_boostmode "essential"
-	func_create_hmip_etrv2_windowsstate "essential"
-	func_create_hmip_etrv2_activeprofile "nonessential"
-	func_create_hmip_etrv2_valvestate "nonessential"
-	func_create_hmip_etrv2_level "nonessential"
-	func_create_hmip_etrv2_levelstatus "nonessential"
-	func_create_hmip_etrv2_setpointmode "nonessential"
-	func_create_hmip_etrv2_setpointtemperature "nonessential"
-	func_create_hmip_etrv2_frostprotection "nonessential"
-
-	# create virtual sensors, actors and automations
-	func_create_hmip_etrv2_automationvirtualhmclimatetopics
-
-}
-
-function func_create_hmip_wth2() {
-
-	# Template for this entity
-	local l_template="hmip_wth2-wallthermostat.yaml"
-
-	# entity type
-	local l_entityType="climate"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777wallthermostat"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  # general homematic sensors
-
-	func_create_ghm_operatingvoltage "nonessential"
-	func_create_ghm_lowbat "essential"
-
-	func_create_ghm_rssidevice "nonessential"
-	func_create_ghm_rssipeer "nonessential"
-	func_create_ghm_dutycycle "nonessential"
-	func_create_ghm_unreach "nonessential"
-
-	# specific sensors
-	func_create_ghm_actualtemperature "nonessential" "1"
-	func_create_ghm_actualtemperaturestatus "nonessential" "1"
-
-	func_create_hmip_wth2_humidity "essential"
-	func_create_hmip_wth2_dewpoint "essential"
-
-	func_create_hmip_etrv2_boostmode "essential"
-	func_create_hmip_etrv2_windowsstate "essential"
-	func_create_hmip_etrv2_activeprofile "nonessential"
-	func_create_hmip_etrv2_setpointmode "nonessential"
-	func_create_hmip_etrv2_setpointtemperature "nonessential"
-	func_create_hmip_etrv2_frostprotection "nonessential"
-
-	# create virtual sensors, actors and automations
-	# TODO: Need to implement CCU direct connected devices or fake connected
-	#       devices by handing over the MQTT channel of the radiator / valve
-	#       device. WTH does not have a valve
-	func_create_hmip_etrv2_automationvirtualhmclimatetopics
-
-}
-
-function func_create_ccu_heatinggroup() {
-
-	# Template for this entity
-	local l_template="ccu_group-heating.yaml"
-
-	# entity type
-	local l_entityType="climate"
-
-	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777heatinggroup"
-
-	# suffix for friendly_name used for UI
-	local l_friendlyNameSuffix=""
-
-	# define if entity is essential or nonessential to show up in UI
-	local l_essentialforUIStatus="essential"
-
-	local l_deviceChannel=${channel#*:}
-	func_generateEntity
-
-
-  # general homematic sensors
-
-	# The following channels exist but do not make sense necessarily because
-	# it is not clear of which device this state represents
-	#func_create_ghm_operatingvoltage
-	#func_create_ghm_lowbat
-	#func_create_ghm_dutycycle
-	#func_create_ghm_unreach
-
-	# specific sensors
-	func_create_ghm_actualtemperature "nonessential" "1"
-	func_create_ghm_actualtemperaturestatus "nonessential" "1"
-
-	func_create_hmip_wth2_humidity "essential"
-	func_create_hmip_wth2_dewpoint "essential"
-
-	func_create_hmip_etrv2_boostmode "essential"
-	func_create_hmip_etrv2_windowsstate "essential"
-	func_create_hmip_etrv2_activeprofile "nonessential"
-	func_create_hmip_etrv2_setpointmode "nonessential"
-	func_create_hmip_etrv2_setpointtemperature "nonessential"
-	func_create_hmip_etrv2_frostprotection "nonessential"
-	func_create_hmip_etrv2_level "nonessential"
-
-	# create virtual sensors, actors and automations
-	# TODO: Need to implement CCU direct connected devices or fake connected
-	#       devices by handing over the MQTT channel of the radiator / valve
-	#       device. WTH does not have a valve
-	func_create_hmip_etrv2_automationvirtualhmclimatetopics
-
-}
 
 
 ###################
@@ -467,20 +197,34 @@ case $model in
    				      ;;
   hmip_bsm)     func_create_hmip_bsm
   				      ;;
-  hmip_etrv2)   func_create_hmip_etrv2
+  hmip_froll)   func_create_hmip_froll
+                                      ;;
+  hmip_fsm)     func_create_hmip_fsm
   				      ;;
-  hmip_smiv3)     func_create_hmip_smi
+  hmip_pcbs)    func_create_hmip_pcbs
+                                      ;;
+  hmip_smi)     func_create_hmip_smi
   				      ;;
   hmip_swdoi)   func_create_hmip_swdoi
   				      ;;
+  hmip_swsd)    func_create_hmip_swsd
+                                      ;;
   hmip_wth2)    func_create_hmip_wth2
   				      ;;
-  ccu_heatinggroup)   func_create_ccu_heatinggroup
-  				            ;;
+  hmip_etrv2)   func_create_hmip_etrv2
+  				      ;;
+  hmip_heatinggroup)   func_create_hmip_heatinggroup
+  				      ;;
+  hm_lcsw1dr)   func_create_hm_lcsw1dr
+                                      ;;
+  hm_espmsw1dr)   func_create_hm_espmsw1dr
+                                      ;;
+  hb_unisentempds18b20)  func_create_hb_unisentempds18b20
+                                      ;;
   \?)           echo "Invalid model! Supported models are"
-	        echo "  hmip_bdt, hmip_bsm, hmip_etrv2, hmip_swdoi"
+	        echo "  hmip_bdt, hmip_swdoi"
                 exit 1
-	        ;;
+                ;;
 esac
 
 

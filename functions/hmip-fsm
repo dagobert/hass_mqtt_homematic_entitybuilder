@@ -1,0 +1,56 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP FSM hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hmip_fsm() {
+
+	# Template for this entity
+	local l_template="hmip_fsm-lightswitch.yaml"
+
+	# entity type
+	local l_entityType="light"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777light"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+	# Kanal 0
+	func_create_ghm_actualtemperature "nonessential" "0"
+	func_create_ghm_actualtemperaturestatus "nonessential" "0"
+
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_configpending "nonessential" "0"
+
+	# Kanal 5
+	func_create_mhm_current "essential" "5"
+	func_create_mhm_currentstatus "nonessential" "5"
+	func_create_mhm_energycounter "essential" "5"
+	func_create_mhm_energycounteroverflow "nonessential" "5"
+	func_create_mhm_frequency "essential" "5"
+	func_create_mhm_frequencystatus "nonessential" "5"
+	func_create_mhm_power "essential" "5"
+	func_create_mhm_powerstatus "nonessential" "5"
+	func_create_mhm_voltage "essential" "5"
+	func_create_mhm_voltagestatus "nonessential" "5"
+}
+
+
+

@@ -1,23 +1,24 @@
 #!/bin/bash
 #
-# Specific functions for Homematic IP BSM hardware
+# Functions that is common to many Homematic (IP) hardware
 #
 
-
-# Channel 7
-function func_create_hmip_bsm_current() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_current:"
+# Creates sensor CURRENT
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_current() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_current:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-  local l_deviceChannel=7
+  local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-current.yaml"
+	local l_template="mhm-current.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -32,20 +33,23 @@ function func_create_hmip_bsm_current() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_currentstatus() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_currentstatus:"
+
+# Creates sensor CURRENT_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_currentstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_currentstatus:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-currentstatus.yaml"
+	local l_template="mhm-currentstatus.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -61,20 +65,22 @@ function func_create_hmip_bsm_currentstatus() {
 }
 
 
-# Channel 7
-function func_create_hmip_bsm_energycounter() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_energycounter:"
+# Creates sensor ENERGY_COUNTER
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_energycounter() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_energycounter:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-energycounter.yaml"
+	local l_template="mhm-energycounter.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -89,20 +95,23 @@ function func_create_hmip_bsm_energycounter() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_energycounteroverflow() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_energycounteroverflow:"
+
+# Creates sensor ENERGY_COUNTER_OVERFLOW
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_energycounteroverflow() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_energycounteroverflow:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-energycounteroverflow.yaml"
+	local l_template="mhm-energycounteroverflow.yaml"
 
 	# entity type
   local l_entityType="binary_sensor"
@@ -117,20 +126,23 @@ function func_create_hmip_bsm_energycounteroverflow() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_frequency() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_frequency:"
+
+# Creates sensor FREQUENCY
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_frequency() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_frequency:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-frequency.yaml"
+	local l_template="mhm-frequency.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -145,20 +157,23 @@ function func_create_hmip_bsm_frequency() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_frequencystatus() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_frequencystatus:"
+
+# Creates sensor FREQUENCY_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_frequencystatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_frequencystatus:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-frequencystatus.yaml"
+	local l_template="mhm-frequencystatus.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -173,20 +188,23 @@ function func_create_hmip_bsm_frequencystatus() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_power() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_power:"
+
+# Creates sensor POWER
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_power() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_power:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-power.yaml"
+	local l_template="mhm-power.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -201,20 +219,23 @@ function func_create_hmip_bsm_power() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_powerstatus() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_powerstatus:"
+
+# Creates sensor POWER_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_powerstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_powerstatus:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-powerstatus.yaml"
+	local l_template="mhm-powerstatus.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -229,20 +250,23 @@ function func_create_hmip_bsm_powerstatus() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_voltage() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_voltage:"
+
+# Creates sensor VOLTAGE
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_voltage() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_voltage:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-voltage.yaml"
+	local l_template="mhm-voltage.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -257,20 +281,22 @@ function func_create_hmip_bsm_voltage() {
 
 }
 
-# Channel 7
-function func_create_hmip_bsm_voltagestatus() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hmip_bsm_voltagestatus:"
+# Creates sensor VOLTAGE_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_mhm_voltagestatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_mhm_voltagestatus:"
 				 echo "  missing essential status"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
 	local l_essentialforUIStatus=$1
 
-	local l_deviceChannel=7
+	local l_deviceChannel=$2
 
   # Template for this entity
-	local l_template="hmip_bsm-voltagestatus.yaml"
+	local l_template="mhm-voltagestatus.yaml"
 
 	# entity type
   local l_entityType="sensor"
@@ -284,5 +310,4 @@ function func_create_hmip_bsm_voltagestatus() {
   func_generateEntity
 
 }
-
 

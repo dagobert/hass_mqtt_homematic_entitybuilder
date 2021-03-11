@@ -1,0 +1,124 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP eTRV2 hardware
+#
+
+###########
+# Create
+###########
+
+function func_create_hmip_wth2() {
+
+	# Template for this entity
+	local l_template="hmip_wth2-wallthermostat.yaml"
+
+	# entity type
+	local l_entityType="climate"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777wallthermostat"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+
+	func_create_ghm_operatingvoltage "nonessential"
+	func_create_ghm_lowbat "essential"
+
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+
+	# specific sensors
+	func_create_ghm_actualtemperature "nonessential" "1"
+	func_create_ghm_actualtemperaturestatus "nonessential" "1"
+
+	func_create_hmip_wth2_humidity "essential"
+	func_create_hmip_wth2_dewpoint "essential"
+
+	func_create_hmip_etrv2_boostmode "essential"
+	func_create_hmip_etrv2_windowsstate "essential"
+	func_create_hmip_etrv2_activeprofile "nonessential"
+	func_create_hmip_etrv2_setpointmode "nonessential"
+	func_create_hmip_etrv2_setpointtemperature "nonessential"
+	func_create_hmip_etrv2_frostprotection "nonessential"
+
+	# create virtual sensors, actors and automations
+	# TODO: Need to implement CCU direct connected devices or fake connected
+	#       devices by handing over the MQTT channel of the radiator / valve
+	#       device. WTH does not have a valve
+	func_create_hmip_etrv2_automationvirtualhmclimatetopics "essential"
+
+}
+
+
+###########
+# Extra functions
+###########
+
+## Channel 1
+function func_create_hmip_wth2_humidity() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_wth2_humidity:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_wth2-humidity.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777humidity"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Luftfeuchtigkeit"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_wth2_dewpoint() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_wth2_dewpoint:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_wth2-dewpoint.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777dewpoint"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Taupunkt"
+
+  func_generateEntity
+
+}
+
+
+

@@ -1,3 +1,4 @@
+*.swp
 entitybuilder.conf
 entitybuilder_devices.list
 entitybuilder_fromFile.conf

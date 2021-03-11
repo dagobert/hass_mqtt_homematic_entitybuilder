@@ -1,0 +1,171 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP SWSD hardware
+#
+
+#######
+# Create
+#######
+
+function func_create_hmip_swsd() {
+	# Template for this entity
+	local l_template="hmip_swsd-alarm.yaml"
+
+	# entity type
+	local l_entityType="sensor"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777alarm"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  ## general homematic sensors
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_errorcode "nonessential" "1"
+        func_create_ghm_lowbat "essential"
+        func_create_ghm_configpending "nonessential" "0"
+
+# Special
+        func_create_hmip_swsd-timeofoperation "nonessential" "0"
+
+        func_create_hmip_swsd-smokedetectorcommand_smoketest "essential"
+        func_create_hmip_swsd-smokedetectorcommand_intrusion "essential"
+        func_create_hmip_swsd-smokedetectortestresult "essential"
+
+}
+
+
+# Creates sensor TIME_OF_OPERATION
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hmip_swsd-timeofoperation() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hmip_swsd-timeofoperation:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="hmip_swsd-timeofoperation.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777timeofoperation"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Laufzeit"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
+
+
+# Creates sensor SMOKE_DETECTOR_TEST_RESULT
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hmip_swsd-smokedetectortestresult() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_swsd-smokedetectortestresult:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_swsd-smokedetectortestresult.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777smokedetectortestresult"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Testergebnis"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
+
+# Creates a switch SMOKE_DETECTOR_COMMAND for intrusion alarm
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hmip_swsd-smokedetectorcommand_intrusion() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_swsd-smokedetectorcommand_intrusion:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_swsd-smokedetectorcommand_intrusion.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777smokedetectorcomman_intrusion"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Einbruchalarm"
+
+	# entity type
+  local l_entityType="switch"
+
+
+  func_generateEntity
+
+}
+
+
+# Creates a switch SMOKE_DETECTOR_COMMAND for smoke test
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hmip_swsd-smokedetectorcommand_smoketest() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_hmip_swsd-smokedetectorcommand_smoketest:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=1
+
+  # Template for this entity
+	local l_template="hmip_swsd-smokedetectorcommand_smoketest.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777smokedetectorcomman_smoketest"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Test"
+
+	# entity type
+  local l_entityType="switch"
+
+
+  func_generateEntity
+
+}
+
+

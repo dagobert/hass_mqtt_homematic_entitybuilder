@@ -12,6 +12,6 @@ state_template: >-
   {% else %}
     off
   {% endif %}
-retain: false
+retain: true
 qos: 0
 

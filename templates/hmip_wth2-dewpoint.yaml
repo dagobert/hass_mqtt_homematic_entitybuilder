@@ -1,9 +1,7 @@
 platform: template
 sensors:
   __ENTITYNAME__:
-    entity_id:
-      - sensor.__NAME__777actualtemperature
-      - sensor.__NAME__777humidity
+    unique_id: __ENTITYNAME__
     device_class: temperature
     unit_of_measurement: "°C"
     value_template: >-

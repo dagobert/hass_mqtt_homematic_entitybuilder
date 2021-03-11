@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP Heating Group (virtual)
+#
+
+##########
+# Create
+##########
+
+function func_create_hmip_heatinggroup() {
+
+	# Template for this entity
+	local l_template="hmip_group-heating.yaml"
+
+	# entity type
+	local l_entityType="climate"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777heatinggroup"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  # general homematic sensors
+
+	# The following channels exist but do not make sense necessarily because
+	# it is not clear of which device this state represents
+	#func_create_ghm_operatingvoltage
+	#func_create_ghm_lowbat
+	#func_create_ghm_dutycycle
+	#func_create_ghm_unreach
+
+	# specific sensors
+	func_create_ghm_actualtemperature "nonessential" "1"
+	func_create_ghm_actualtemperaturestatus "nonessential" "1"
+
+	func_create_hmip_wth2_humidity "essential"
+	func_create_hmip_wth2_dewpoint "essential"
+
+	func_create_hmip_etrv2_boostmode "essential"
+	func_create_hmip_etrv2_windowsstate "essential"
+	func_create_hmip_etrv2_activeprofile "nonessential"
+	func_create_hmip_etrv2_setpointmode "nonessential"
+	func_create_hmip_etrv2_setpointtemperature "nonessential"
+	func_create_hmip_etrv2_frostprotection "nonessential"
+	func_create_hmip_etrv2_level "nonessential"
+
+	# create virtual sensors, actors and automations
+	# TODO: Need to implement CCU direct connected devices or fake connected
+	#       devices by handing over the MQTT channel of the radiator / valve
+	#       device. WTH does not have a valve
+	func_create_hmip_etrv2_automationvirtualhmclimatetopics "essential"
+
+}
+

@@ -1,0 +1,25 @@
+# Meaning of values
+# integer
+# 0 = NONE
+# 1 = SMOKE_TEST_OK
+# 2 = SMOKE_TEST_FAILED
+# 3 = COMMUNICATION_TEST_SENT
+# 4 = COMMUNICATION_TEST_OK
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SMOKE_DETECTOR_TEST_RESULT"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SMOKE_DETECTOR_TEST_RESULT"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "NONE",
+    "SMOKE_TEST_OK",
+    "SMOKE_TEST_FAILED",
+    "COMMUNICATION_TEST_SENT",
+    "COMMUNICATION_TEST_OK" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+qos: 0
+

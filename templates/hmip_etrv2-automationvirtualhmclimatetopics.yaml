@@ -1,32 +1,31 @@
 - id: __UNIQUEID___action
   alias: __ENTITYNAME___action
-  hide_entity: true
   initial_state: true
   trigger:
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777level
+      entity_id: sensor.__NAME__777level
       to: "0"
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777level
+      entity_id: sensor.__NAME__777level
       from: "0"
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777setpointmode
+      entity_id: sensor.__NAME__777setpointmode
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777setpointtemperature
+      entity_id: sensor.__NAME__777setpointtemperature
       to: "4.5"
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777setpointtemperature
+      entity_id: sensor.__NAME__777setpointtemperature
       from: "4.5"
   action:
     - service: mqtt.publish
       data_template:
         topic: '__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/ACTION'
         payload: >-
-          {% if states('sensor.__BASEENTITYNAME__777level')|float > 0 %}
+          {% if states('sensor.__NAME__777level')|float > 0 %}
             heating
-          {% elif is_state('sensor.__BASEENTITYNAME__777level', "0") 
-               and is_state('sensor.__BASEENTITYNAME__777setpointmode', "1") 
-               and is_state('sensor.__BASEENTITYNAME__777setpointtemperature', "4.5") %}
+          {% elif is_state('sensor.__NAME__777level', "0") 
+               and is_state('sensor.__NAME__777setpointmode', "1") 
+               and is_state('sensor.__NAME__777setpointtemperature', "4.5") %}
             off
           {% else %}
             idle
@@ -41,7 +40,6 @@
 #   handle Homematic's way of publishing and subscribing to data
 - id: __UNIQUEID___modecommand
   alias: __ENTITYNAME___modecommand
-  hide_entity: true
   initial_state: true
   trigger:
     - platform: mqtt
@@ -90,28 +88,30 @@
 #   handle Homematic's way of publishing data
 - id: __UNIQUEID___modestate
   alias: __ENTITYNAME___modestate
-  hide_entity: true
   initial_state: true
   trigger:
-    - platform: mqtt
-      topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_MODE"
     - platform: state
-      entity_id: sensor.__BASEENTITYNAME__777setpointtemperature
+      entity_id: sensor.__NAME__777setpointmode
+    - platform: state
+      entity_id: sensor.__NAME__777setpointtemperature
       to: "4.5"
+    - platform: state  
+      entity_id: sensor.__NAME__777setpointtemperature
+      from: "4.5"
   action:
     - service: mqtt.publish
       data_template:
         topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/MODE_STATE"
         payload: >-
-          {% if is_state("sensor.__BASEENTITYNAME__777setpointmode", "0") %}
+          {% if is_state("sensor.__NAME__777setpointmode", "0") %}
             auto
-          {% elif is_state("sensor.__BASEENTITYNAME__777setpointmode", "1") and not 
-               is_state("sensor.__BASEENTITYNAME__777setpointtemperature", "4.5") %}
+          {% elif is_state("sensor.__NAME__777setpointmode", "1") and not 
+               is_state("sensor.__NAME__777setpointtemperature", "4.5") %}
             heat
-          {% elif is_state("sensor.__BASEENTITYNAME__777setpointmode", "1") and 
-               is_state("sensor.__BASEENTITYNAME__777setpointtemperature", "4.5") %}
+          {% elif is_state("sensor.__NAME__777setpointmode", "1") and 
+               is_state("sensor.__NAME__777setpointtemperature", "4.5") %}
             off
-          {% elif is_state("sensor.__BASEENTITYNAME__777setpointmode", "2") %}
+          {% elif is_state("sensor.__NAME__777setpointmode", "2") %}
             vacation (not supported)
           {% else %}
             unknown state

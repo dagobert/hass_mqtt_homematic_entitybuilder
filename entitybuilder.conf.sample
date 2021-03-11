@@ -13,16 +13,16 @@ subdirForGenerated="ebGenerated"
 
 
 # CCU MQTT topic prefix
-# Everything before "set" and "status" which you configured in
+# Immediately before "set" and "status" which you configured in
 # NodeRed
-ccuMqttTopicPrefix="ug/hm"
+# Commandline switch will be placed before this
 
 
 # Home Assistant MQTT topic prefix for
 # This topic is used for eg. WTH because these entities "send" topics
 # that are not compatible with how the CCU needs them. Automations
 # will "convert" them and provide the correct value
-hassVirtualnmMqttTopicPrefix="ug/hass/virtualhm"
+hassVirtualnmMqttTopicPrefix="hass/virtualhm"
 
 
 # Write debug output to command line

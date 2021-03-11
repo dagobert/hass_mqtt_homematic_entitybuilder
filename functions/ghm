@@ -115,7 +115,7 @@ function func_create_ghm_unreach() {
 function func_create_ghm_errorcode() {
 	if [ $# -ne 2 ]; then
 				 echo "func_create_ghm_errorcode:"
-				 echo "  missing essential status"
+				 echo "  wrong number of argument given"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
@@ -225,6 +225,7 @@ function func_create_ghm_lowbat() {
 function func_create_ghm_operatingvoltage() {
 	if [ $# -ne 1 ]; then
 				 echo "func_create_ghm_operatingvoltage:"
+				 echo "  wrong number of argument given"
 				 echo "  missing essential status"
 				 exit 1
 	fi
@@ -255,7 +256,7 @@ function func_create_ghm_operatingvoltage() {
 function func_create_ghm_operatingvoltagestatus() {
 	if [ $# -ne 2 ]; then
 				 echo "func_create_ghm_operatingvoltagestatus:"
-				 echo "  missing Hm device channel"
+				 echo "  wrong number of argument given"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
@@ -284,7 +285,7 @@ function func_create_ghm_operatingvoltagestatus() {
 function func_create_ghm_actualtemperature() {
 	if [ $# -ne 2 ]; then
 				 echo "func_create_ghm_actualtemperature:"
-				 echo "  missing Hm device channel"
+				 echo "  wrong number of argument given"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)
@@ -314,7 +315,7 @@ function func_create_ghm_actualtemperature() {
 function func_create_ghm_actualtemperaturestatus() {
 	if [ $# -ne 2 ]; then
 				 echo "func_create_ghm_actualtemperaturestatus:"
-				 echo "  missing Hm device channel"
+				 echo "  wrong number of argument given"
 				 exit 1
 	fi
 	# Essential status (essential, nonessential)

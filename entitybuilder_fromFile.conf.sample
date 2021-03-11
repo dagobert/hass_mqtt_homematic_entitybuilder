@@ -1,0 +1,7 @@
+
+# program path of entitybuilder executable
+progEntitybuilder="./entitybuilder"
+
+# Home Assistant base directory
+habasepath="/root/config/"
+

@@ -6,14 +6,17 @@
 
 
 # Entitybuilder
-progEntitybuilder="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant/mytools/entitybuilder"
+progEntitybuilder="./entitybuilder"
 
 # Home Assistant base path
-habasepath="/srv/dev-disk-by-label-Docker/DockerDataHass/homeassistant"
+habasepath="/root/config/"
 
+configfile="./entitybuilder_fromFile.conf"
 justPrint=0
-while getopts "f:j" opt; do
+while getopts "c:f:j" opt; do
   case $opt in
+	  c)  configfile=$OPTARG
+		  ;;
 		f)  listFile=$OPTARG
 				;;
 		j)  justPrint=1
@@ -31,6 +34,9 @@ done
 
 
 ## Check for required options
+[ ! -e "$configfile" ] && { echo "Configuration file not found: entitybuilder_fromFile.conf"; exit 1; }
+source "$configfile"
+
 [ ! -e "$progEntitybuilder" ] && { echo "Program not found: entitybuilder"; exit 1; }
 [ ! -d "$habasepath" ] && { echo "Home Assistant base path not found"; exit 1; }
 [ ! -e "$listFile" ] && { echo "-f file does not exist"; exit 1; }

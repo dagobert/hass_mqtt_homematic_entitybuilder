@@ -1,17 +1,18 @@
 # Dieses ist eine Liste aller Geräte
 #
+# MQTT Prefix:           (-x) MQTT topic prefix eg. to indecate location
 # Channel:               (-c) MQTT channel of the main function of the device
 # Model:                 (-m) Model type of the Homematic device
 # Name:                  (-n) Base-Name of the entity
 # hide in UI:            (-H) Hide entities - none, all, nonessential
 # rewrite customization: (-C) Overwrite existing customization - true, false
 #
-# Channel,Model,Name,hide in UI,rewrite customization
+# Prefix,Channel,Model,Name,hide in UI,rewrite customization
 
-xxxxxxxxxxxxxx:4,hmip_bdt,home_ug_badezimmer_deckenhauptlicht,nonessential,true
-yyyyyyyyyyyyyy:4,hmip_bdt,home_ug_badezimmer_spiegellicht,nonessential,true
+ug,xxxxxxxxxxxxxx:4,hmip_bdt,home_ug_badezimmer_deckenhauptlicht,nonessential,true
+ug,yyyyyyyyyyyyyy:4,hmip_bdt,home_ug_badezimmer_spiegellicht,nonessential,true
 
-zzzzzzzzzzzzzz:1,hmip_etrv2,home_ug_badezimmer_heizkoerper,all,true
-aaaaaaaaaaaaaa:1,hmip_wth2,home_ug_badezimmer_wandthermostat,all,true
+ug,zzzzzzzzzzzzzz:1,hmip_etrv2,home_ug_badezimmer_heizkoerper,all,true
+ug,aaaaaaaaaaaaaa:1,hmip_wth2,home_ug_badezimmer_wandthermostat,all,true
 
-INT0000001:1,ccu_heatinggroup,home_ug_badezimmer_heizung,nonessential,true
+ug,INT0000001:1,ccu_heatinggroup,home_ug_badezimmer_heizung,nonessential,true

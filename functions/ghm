@@ -140,6 +140,34 @@ function func_create_ghm_errorcode() {
 
 }
 
+function func_create_ghm_configpending() {
+	if [ $# -ne 1 ]; then
+				 echo "func_create_ghm_configpending:"
+				 echo "  missing essential status"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+
+	local l_deviceChannel=0
+  
+  # Template for this entity
+	local l_template="ghm-configpending.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777configpending"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="KonfigurationWartend"
+
+
+  func_generateEntity
+
+}
+
 function func_create_ghm_sabotage() {
 	if [ $# -ne 1 ]; then
 				 echo "func_create_ghm_sabotage:"
@@ -222,6 +250,35 @@ function func_create_ghm_operatingvoltage() {
 
 }
 
+# Creates sensor OPERATING_VOLTAGE_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_operatingvoltagestatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_operatingvoltagestatus:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-operatingvoltagestatus.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777operatingvoltagestatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Betriebsspannung Status"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
 # Creates sensor ACTUAL_TEMPERATURE
 # @string essential for UI
 # @int    channel of homematic device (this is not the mqtt channel)

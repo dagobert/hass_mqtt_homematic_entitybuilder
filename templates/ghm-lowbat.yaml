@@ -1,13 +1,13 @@
 platform: mqtt
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
-state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LOWBAT"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LOW_BAT"
 device_class: battery
 value_template: >-
-        {% if value_json.val == false %}
-        OFF
-        {% else %}
+        {% if value_json.val %}
         ON
+        {% else %}
+        OFF
         {% endif %}
 qos: 0
 

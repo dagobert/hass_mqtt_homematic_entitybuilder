@@ -1,0 +1,7 @@
+alias: "__ENTITYNAME__"
+sequence:
+  service: mqtt.publish
+  data:
+    topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/RESET_MOTION"
+    payload: "true"
+

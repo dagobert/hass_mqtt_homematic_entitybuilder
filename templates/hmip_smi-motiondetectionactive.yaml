@@ -1,0 +1,13 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/MOTION_DETECTION_ACTIVE"
+device_class: motion
+value_template: >-
+        {% if value_json.val == false %}
+        OFF
+        {% else %}
+        ON
+        {% endif %}
+qos: 0
+

@@ -1,0 +1,10 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ILLUMINATION"
+device_class: illuminance
+unit_of_measurement: "lm"
+value_template: >-
+  {{ value_json.val }}
+qos: 0
+

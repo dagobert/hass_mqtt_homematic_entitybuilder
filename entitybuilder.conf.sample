@@ -3,7 +3,7 @@
 # The first part is the entity type as you use it in HASS the second
 # is the include directory
 declare -A entityTypeSubdirectories
-entityTypeSubdirectories=( ["automation"]="automations" ["binary_sensor"]="binary_sensors" ["sensor"]="sensors" ["climate"]="climate" ["light"]="lights" ["switch"]="switches" )
+entityTypeSubdirectories=( ["automation"]="automations" ["binary_sensor"]="binary_sensors" ["sensor"]="sensors" ["climate"]="climate" ["light"]="lights" ["script"]="scripts" ["switch"]="switches" )
 
 
 # Subdirectory for generated files within entity type directories

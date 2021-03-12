@@ -8,15 +8,15 @@
   initial_state: true
   trigger:
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
       payload: "open"
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
       payload: "close"
   action:
     - service: mqtt.publish
       data_template:
-        topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/LEVEL"
+        topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/LEVEL"
         payload: >-
           {% if trigger.payload == "open" %}
             1
@@ -38,39 +38,18 @@
   initial_state: true
   trigger:
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
       payload: "stop"
   action:
     - service: mqtt.publish
       data_template:
-        topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/STOP"
+        topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/STOP"
         payload: >-
           {% if trigger.payload == "stop" %}
             true
           {% else %}
             not supported COMMAND value {{ trigger.payload }}
           {% endif %}
-        retain: false
-        qos: 0
-
-## Publishes the position state of a hmip cover device, triggered by 
-#  mqtt LEVEL
-#   This is necessary since mqtt.climate is not flexible enough to
-#   handle Homematic's way of publishing data
-# HASS needs values between 0 and 100, HM supplies values between
-# 0 and 1
-- id: __UNIQUEID___position
-  alias: __ENTITYNAME___position
-  initial_state: true
-  trigger:
-    - platform: mqtt
-      topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL"
-  action:
-    - service: mqtt.publish
-      data_template:
-        topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/LEVEL"
-        payload: >-
-          {{ (trigger.payload_json.val * 100) |int }}
         retain: false
         qos: 0
 

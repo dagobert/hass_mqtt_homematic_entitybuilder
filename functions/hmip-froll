@@ -24,7 +24,7 @@ function func_create_hmip_froll() {
 	# define if entity is essential or nonessential to show up in UI
 	local l_essentialforUIStatus="essential"
 
-	local l_deviceChannel=${channel#*:}
+	local l_deviceChannel=4
 	func_generateEntity
 
 

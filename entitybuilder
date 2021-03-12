@@ -63,6 +63,8 @@ done
 
 [ "$mqttPrefix" == "" ] && { echo "-x missing for mqtt prefix"; exit 1; }
 [ "$channel" == "" ] && { echo "-c missing for channel ID"; exit 1; }
+# TODO remove after transition to deviceid only in entitybuilder
+deviceid=${channel::-2}
 [ "$model" == "" ] && { echo "-m missing for model"; exit 1; }
 [ "$name" == "" ] && { echo "-n missing for name"; exit 1; }
 
@@ -119,6 +121,8 @@ function func_generateEntity() {
   sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
   sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
   sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
+  sed -i 's|__DEVICEID__|'${deviceid}'|' ${l_entityAbsLocation}
+  sed -i 's|__CHANNELID__|'${l_deviceChannel}'|' ${l_entityAbsLocation}
   sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
   sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
   sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}

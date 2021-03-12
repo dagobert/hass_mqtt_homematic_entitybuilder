@@ -1,0 +1,18 @@
+platform: mqtt
+schema: template
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/STATE"
+state_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:__CHANNELID__/STATE"
+command_on_template: "true"
+command_off_template: "false"
+state_template: >-
+  {% if value_json.val %}
+    on
+  {% else %}
+    off
+  {% endif %}
+optimistic: false
+retain: false
+qos: 0
+

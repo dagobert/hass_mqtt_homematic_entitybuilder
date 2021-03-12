@@ -171,6 +171,10 @@ case $model in
   				      ;;
   hmip_pcbs)    func_create_hmip_pcbs
                                       ;;
+  hmip_psv4-light)   func_create_hmip_psv4-light
+                                      ;;
+  hmip_psv4-switch)   func_create_hmip_psv4-switch
+                                      ;;
   hmip_smiv3)   func_create_hmip_smiv3
   				      ;;
   hmip_swdoi)   func_create_hmip_swdoi
@@ -190,7 +194,7 @@ case $model in
   hb_unisentempds18b20)  func_create_hb_unisentempds18b20
                                       ;;
   \?)           echo "Invalid model! Supported models are"
-	        echo "  hmip_bdt, hmip_swdoi"
+	        echo "  hmip_bdt, hmip_swdoi..."
                 exit 1
                 ;;
 esac

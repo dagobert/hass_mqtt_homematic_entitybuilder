@@ -1,17 +1,17 @@
 platform: mqtt
-schema: template
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/MOTION_DETECTION_ACTIVE"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/MOTION_DETECTION_ACTIVE"
-command_on_template: "true"
-command_off_template: "false"
-state_template: >-
+payload_on: "true"
+payload_off: "false"
+state_on: "ON"
+state_off: "OFF"
+value_template: >-
   {% if value_json.val %}
-    on
+    ON
   {% else %}
-    off
+    OFF
   {% endif %}
-retain: true
 qos: 0
 

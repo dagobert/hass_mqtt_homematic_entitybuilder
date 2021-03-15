@@ -1,0 +1,263 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP KRC4 hardware
+#
+
+
+function func_create_hmip_krc4() {
+
+	# TODO: MQTT Trigger would be better but only works with autodiscovery
+
+#	# Template for this entity
+#	local l_template="hmip_krc4-button1.yaml"
+#
+#	# entity type
+#	local l_entityType="binary_sensor"
+#
+#	# suffix for this entity used in "name" and "unique_id"
+#	local l_sensorSuffix="777motion"
+#
+#	# suffix for friendly_name used for UI
+#	local l_friendlyNameSuffix=""
+#
+#	# define if entity is essential or nonessential to show up in UI
+#	local l_essentialforUIStatus="essential"
+#
+#	local l_deviceChannel=${channel#*:}
+#	func_generateEntity
+
+
+  # general homematic sensors
+	func_create_ghm_operatingvoltage "nonessential"
+	func_create_ghm_lowbat "essential"
+
+	func_create_ghm_configpending "nonessential" "0"
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_errorcode "nonessential" "0"
+
+}
+
+
+
+# Channel 1
+function func_create_hmip_smi_currentillumination() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_currentillumination:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-currentillumination.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777currentillumination"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Aktuelle Helligkeit"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_smi_currentilluminationstatus() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_currentilluminationstatus:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-currentillumination.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777currentilluminationstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Aktuelle Helligkeit Status"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_smi_illumination() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_illumination:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-illumination.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777illumination"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Helligkeit"
+
+  func_generateEntity
+
+}
+
+
+function func_create_hmip_smi_illuminationstatus() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_illuminationstatus:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-illuminationstatus.yaml"
+
+	# entity type
+  local l_entityType="sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777illuminationstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Helligkeit Status"
+
+  func_generateEntity
+
+}
+
+
+function func_create_hmip_smi_motion() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_motion:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-motion.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777motion"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Bewegung"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_smi_motiondetectionactive() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_motiondetectionactive:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-motiondetectionactive.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777motiondetectionactive"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Bewegungserkennung Aktiv"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_smi_motiondetection() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_motiondetection:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-motiondetection.yaml"
+
+	# entity type
+  local l_entityType="switch"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777motiondetection"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Bewegungserkennung"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_smi_resetmotion() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_smi_resetmotion:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_smi-resetmotion.yaml"
+
+	# entity type
+  local l_entityType="script"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777resetmotion"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Reset erkannte Bewegung"
+
+  func_generateEntity
+
+}
+

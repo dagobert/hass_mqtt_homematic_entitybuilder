@@ -1,0 +1,136 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP SMI hardware
+#
+
+
+function func_create_hmip_asiro() {
+
+	# Template for this entity
+#	local l_template="hmip_asiro-motion.yaml"
+#
+#	# entity type
+#	local l_entityType="binary_sensor"
+#
+#	# suffix for this entity used in "name" and "unique_id"
+#	local l_sensorSuffix="777motion"
+#
+#	# suffix for friendly_name used for UI
+#	local l_friendlyNameSuffix=""
+#
+#	# define if entity is essential or nonessential to show up in UI
+#	local l_essentialforUIStatus="essential"
+#
+#	local l_deviceChannel=${channel#*:}
+#	func_generateEntity
+
+
+  # general homematic sensors
+	func_create_ghm_sabotage "essential"
+
+	func_create_ghm_operatingvoltage "essential"
+	func_create_ghm_operatingvoltagestatus "nonessential" "0"
+	func_create_ghm_lowbat "essential"
+
+	func_create_ghm_configpending "nonessential" "0"
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_errorcode "nonessential" "0"
+
+	# device specific
+	func_create_hmip_asiro_errorbadrechargeablebatteryhealth "essential"
+	func_create_hmip_asiro_acousticalarmactive "essential"
+	func_create_hmip_asiro_opticalalarmactive "essential"
+
+}
+
+
+
+# Channel 0
+function func_create_hmip_asiro_errorbadrechargeablebatteryhealth() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_asiro_errorbadrechargeablebatteryhealth:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=0
+
+  # Template for this entity
+  local l_template="hmip_asiro-errorbadrechargeablebatteryhealth.yaml"
+
+  # entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777errorbadrechargeablebatteryhealth"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Akku defekt"
+
+  func_generateEntity
+
+}
+
+# Channel 3
+function func_create_hmip_asiro_acousticalarmactive() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_asiro_acousticalarmactive:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_asiro-acousticalarmactive.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777acousticalarmactive"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Alarmton aktiv"
+
+  func_generateEntity
+
+}
+
+function func_create_hmip_asiro_opticalalarmactive() {
+  if [ $# -ne 1 ]; then
+    echo "func_create_hmip_asiro_opticalalarmactive:"
+    echo "  missing essential status"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=1
+
+  # Template for this entity
+  local l_template="hmip_asiro-opticalalarmactive.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777opticalalarmactive"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Alarmlicht aktiv"
+
+  func_generateEntity
+
+}
+
+# TODO: input_select for sound mode, light mode, duration, turnoff sound, light
+
+

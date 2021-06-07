@@ -161,6 +161,8 @@ function func_generateEntity() {
 ###################
 
 case $model in
+  hmip_asiro)   func_create_hmip_asiro
+   				      ;;
   hmip_bdt)     func_create_hmip_bdt
    				      ;;
   hmip_bsm)     func_create_hmip_bsm

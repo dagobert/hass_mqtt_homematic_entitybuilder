@@ -76,10 +76,10 @@ function func_create_hmip_froll_levelstatus() {
   local l_entityType="sensor"
 
   # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777boostmode"
+  local l_sensorSuffix="777levelstatus"
 
   # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Boost Modus"
+  local l_friendlyNameSuffix="Level Status"
 
   func_generateEntity
 

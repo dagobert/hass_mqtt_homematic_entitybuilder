@@ -32,11 +32,11 @@ function func_create_hm_espmsw1dr() {
         func_create_ghm_unreach "nonessential"
 
         # specific sensors
-        func_create_hm_espmsw1dr_current "essential"
-        func_create_hm_espmsw1dr_energycounter "essential"
-        func_create_hm_espmsw1dr_frequency "essential"
-        func_create_hm_espmsw1dr_power "essential"
-        func_create_hm_espmsw1dr_voltage "essential"
+	func_create_mhm_current "essential" "2"
+	func_create_mhm_energycounter "essential" "2"
+	func_create_mhm_frequency "essential" "2"
+	func_create_mhm_power "essential" "2"
+	func_create_mhm_voltage "essential" "2"
 
 }
 
@@ -45,149 +45,4 @@ function func_create_hm_espmsw1dr() {
 ##########
 # Extra functions
 ##########
-
-# Channel 2
-function func_create_hm_espmsw1dr_current() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hm_espmsw1dr_current:"
-				 echo "  missing essential status"
-				 exit 1
-	fi
-	# Essential status (essential, nonessential)
-	local l_essentialforUIStatus=$1
-
-  local l_deviceChannel=2
-
-  # Template for this entity
-	local l_template="hm_espmsw1dr-current.yaml"
-
-	# entity type
-  local l_entityType="sensor"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777current"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Strom"
-
-  func_generateEntity
-
-}
-
-
-# Channel 2
-function func_create_hm_espmsw1dr_energycounter() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hm_espmsw1dr_energycounter:"
-				 echo "  missing essential status"
-				 exit 1
-	fi
-	# Essential status (essential, nonessential)
-	local l_essentialforUIStatus=$1
-
-	local l_deviceChannel=2
-
-  # Template for this entity
-	local l_template="hm_espmsw1dr-energycounter.yaml"
-
-	# entity type
-  local l_entityType="sensor"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777energycounter"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Energiezähler"
-
-  func_generateEntity
-
-}
-
-
-# Channel 2
-function func_create_hm_espmsw1dr_frequency() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hm_espmsw1dr_frequency:"
-				 echo "  missing essential status"
-				 exit 1
-	fi
-	# Essential status (essential, nonessential)
-	local l_essentialforUIStatus=$1
-
-	local l_deviceChannel=2
-
-  # Template for this entity
-	local l_template="hm_espmsw1dr-frequency.yaml"
-
-	# entity type
-  local l_entityType="sensor"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777frequency"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Frequenz"
-
-  func_generateEntity
-
-}
-
-
-# Channel 2
-function func_create_hm_espmsw1dr_power() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hm_espmsw1dr_power:"
-				 echo "  missing essential status"
-				 exit 1
-	fi
-	# Essential status (essential, nonessential)
-	local l_essentialforUIStatus=$1
-
-	local l_deviceChannel=2
-
-  # Template for this entity
-	local l_template="hm_espmsw1dr-power.yaml"
-
-	# entity type
-  local l_entityType="sensor"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777power"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Leistung"
-
-  func_generateEntity
-
-}
-
-
-# Channel 2
-function func_create_hm_espmsw1dr_voltage() {
-	if [ $# -ne 1 ]; then
-				 echo "func_create_hm_espmsw1dr_voltage:"
-				 echo "  missing essential status"
-				 exit 1
-	fi
-	# Essential status (essential, nonessential)
-	local l_essentialforUIStatus=$1
-
-	local l_deviceChannel=2
-
-  # Template for this entity
-	local l_template="hm_espmsw1dr-voltage.yaml"
-
-	# entity type
-  local l_entityType="sensor"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777voltage"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Spannung"
-
-  func_generateEntity
-
-}
-
 

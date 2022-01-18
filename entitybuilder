@@ -174,6 +174,8 @@ case $model in
   hmip_fsm)     func_create_hmip_fsm
   				      ;;
   hmip_krc4)    func_create_hmip_krc4
+	  			      ;;
+  hmip_fsm16)   func_create_hmip_fsm16
   				      ;;
   hmip_pcbs)    func_create_hmip_pcbs
                                       ;;

@@ -2,6 +2,7 @@ platform: mqtt
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/VOLTAGE"
+device_class: "voltage"
 unit_of_measurement: "V"
 icon: mdi:current-ac
 value_template: >-

@@ -3,6 +3,7 @@ name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/FREQUENCY"
 unit_of_measurement: "Hz"
+device_class: "frequency"
 icon: mdi:wave
 value_template: >-
   {{ value_json.val }}

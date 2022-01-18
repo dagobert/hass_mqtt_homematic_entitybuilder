@@ -3,6 +3,7 @@ name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ENERGY_COUNTER"
 state_class: "total_increasing"
+device_class: "energy"
 unit_of_measurement: "kWh"
 icon: mdi:counter
 value_template: >-

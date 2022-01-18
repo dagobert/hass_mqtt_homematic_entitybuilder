@@ -3,7 +3,7 @@ name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/POWER"
 unit_of_measurement: "W"
-device_class: power
+device_class: "power"
 value_template: >-
   {{ value_json.val }}
 qos: 0

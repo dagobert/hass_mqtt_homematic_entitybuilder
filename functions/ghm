@@ -279,6 +279,7 @@ function func_create_ghm_operatingvoltagestatus() {
   func_generateEntity
 
 }
+
 # Creates sensor ACTUAL_TEMPERATURE
 # @string essential for UI
 # @int    channel of homematic device (this is not the mqtt channel)

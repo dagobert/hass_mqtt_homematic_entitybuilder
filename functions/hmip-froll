@@ -49,7 +49,7 @@ function func_create_hmip_froll() {
 	# TODO: Need to implement CCU direct connected devices or fake connected
 	#       devices by handing over the MQTT channel of the radiator / valve
 	#       device. WTH does not have a valve
-	func_create_hmip_froll_automationvirtualhmcovertopics "essential"
+	func_create_hmip_froll_automationvirtualhmcovertopics "essential" "4"
 }
 
 
@@ -86,15 +86,15 @@ function func_create_hmip_froll_levelstatus() {
 }
 
 function func_create_hmip_froll_automationvirtualhmcovertopics() {
-  if [ $# -ne 1 ]; then
+  if [ $# -ne 2 ]; then
     echo "func_create_hmip_froll_automationvirtualhmcovertopics:"
-    echo "  missing essential status"
+    echo "  wrong number of arguments given"
     exit 1
   fi
   # Essential status (essential, nonessential)
   local l_essentialforUIStatus=$1
 
-  local l_deviceChannel=4
+  local l_deviceChannel=$2
 
   # Template for this entity
   local l_template="hmip_froll-automationvirtualhmcovertopics.yaml"

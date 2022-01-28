@@ -10,7 +10,7 @@ qos: 0
 value_template: "{{ value_json.val }}"
 current_temperature_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACTUAL_TEMPERATURE"
 current_temperature_template: >-
-        {{ value_json.val | float }}
+        {{ value_json.val | float(0) }}
 # The HVAC action describes the current action.
 # HEAT, IDLE, OFF
 action_topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/ACTION"
@@ -27,7 +27,7 @@ mode_state_template: >-
         {{ value }}
 temperature_command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
 temperature_state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_TEMPERATURE"
-temperature_state_template: "{{ value_json.val | float }}"
+temperature_state_template: "{{ value_json.val | float(0) }}"
 precision: 0.1
 min_temp: 14.0
 max_temp: 30.0

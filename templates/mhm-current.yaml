@@ -6,6 +6,6 @@ device_class: "current"
 unit_of_measurement: "A"
 icon: mdi:atom
 value_template: >-
-  {{ '%.3f'%value_json.val / 1000 }}
+  {{ '%.3f'%(value_json.val / 1000) }}
 qos: 0
 

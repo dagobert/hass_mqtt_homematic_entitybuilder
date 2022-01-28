@@ -24,7 +24,7 @@ payload_close: "close"
 payload_open: "open"
 payload_stop: "stop"
 set_position_topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/LEVEL"
-set_position_template: '{{ position / 100 |float }}'
+set_position_template: '{{ position / 100 |float(0) }}'
 retain: false
 qos: 0
 

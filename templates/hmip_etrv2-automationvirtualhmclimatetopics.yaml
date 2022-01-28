@@ -21,7 +21,7 @@
       data_template:
         topic: '__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/ACTION'
         payload: >-
-          {% if states('sensor.__NAME__777level')|float > 0 %}
+          {% if states('sensor.__NAME__777level')|float(0) > 0 %}
             heating
           {% elif is_state('sensor.__NAME__777level', "0") 
                and is_state('sensor.__NAME__777setpointmode', "1") 

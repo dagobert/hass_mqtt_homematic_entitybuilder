@@ -1,0 +1,37 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:__CHANNELID__/DIRECTION"
+state_opening: opening
+state_closing: closing
+state_stopped: stopped
+value_template: >
+  {% if value_json.val == 0 %}
+    stopped
+  {% elif value_json.val == 1 %}
+    opening
+  {% elif value_json.val == 2 %}
+    closing
+  {% elif value_json.val == 3 %}
+    UNDEFINED
+  {% else %}
+    UNKNOWN
+  {% endif %}
+position_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:__CHANNELID__/LEVEL"
+position_open: 100
+position_closed: 0
+position_template: >
+  {% if value_json.val < 0 %}
+    0
+  {% else %}
+    {{ (value_json.val * 100) |int }}
+  {% endif %}
+command_topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+payload_close: "close"
+payload_open: "open"
+payload_stop: "stop"
+set_position_topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/LEVEL"
+set_position_template: '{{ position / 100 |float(0) }}'
+retain: false
+qos: 0
+

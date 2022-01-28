@@ -199,6 +199,8 @@ case $model in
                                       ;;
   hm_espmsw1dr)   func_create_hm_espmsw1dr
                                       ;;
+  hm_secwin)   func_create_hm_secwin
+                                      ;;
   hb_unisentempds18b20)  func_create_hb_unisentempds18b20
                                       ;;
   \?)           echo "Invalid model! Supported models are"

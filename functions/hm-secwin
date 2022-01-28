@@ -1,0 +1,194 @@
+#!/bin/bash
+#
+# Specific functions for Homematic Sec-Win hardware
+#
+
+##########
+# Create
+##########
+
+function func_create_hm_secwin() {
+
+	# Template for this entity
+	local l_template="hm_secwin-opener.yaml"
+
+	# entity type
+	local l_entityType="cover"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777opener"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=1
+	func_generateEntity
+
+
+	# Kanal 1
+	func_create_hm_secwin_locked "nonessential" "1"
+	func_create_hm_secwin_errorcode "nonessential" "1"
+
+
+
+	# general homematic sensors
+	func_create_hm_secwin_batcharglevel "nonessential" "2"
+	func_create_hm_secwin_batchargingstatus "nonessential" "2"
+
+        # create virtual sensors, actors and automations
+	# TODO: Need to implement CCU direct connected devices or fake connected
+	#       devices by handing over the MQTT channel of the radiator / valve
+	#       device. WTH does not have a valve
+	# Differnce to froll cover is that closing needs LEVEL to -0.005
+	func_create_hm_secwin_automationvirtualhmcovertopics "essential" "1"
+}
+
+
+##########
+# Extra functions
+##########
+
+## Channel 1
+function func_create_hm_secwin_locked() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hm_secwin_locked:"
+				 echo "  wrong number of argument given"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+	# Template for this entity
+	local l_template="hm_secwin-locked.yaml"
+
+	# entity type
+	local l_entityType="binary_sensor"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777locked"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix="Locked"
+
+	func_generateEntity
+
+}
+
+
+function func_create_hm_secwin_errorcode() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hm_secwin_errorcode:"
+				 echo "  wrong number of argument given"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+	# Template for this entity
+	local l_template="hm_secwin-errorcode.yaml"
+
+	# entity type
+	local l_entityType="sensor"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777error"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix="Error Code"
+
+	func_generateEntity
+
+}
+# Creates sensor battery charging LEVEL
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hm_secwin_batcharglevel() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hm_secwin_batcharglevel:"
+				 echo "  wrong number of argument given"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="hm_secwin-batcharglevel.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777tcharglevel"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Akku Kapazität"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
+
+# Creates sensor battery charging STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hm_secwin_batchargingstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hm_secwin_batchargingstatus:"
+				 echo "  wrong number of argument given"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="hm_secwin-batchargingstatus.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777tchargingstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Akku Ladestatus"
+
+	# entity type
+  local l_entityType="sensor"
+
+
+  func_generateEntity
+
+}
+
+
+function func_create_hm_secwin_automationvirtualhmcovertopics() {
+  if [ $# -ne 2 ]; then
+    echo "func_create_hm_secwin_automationvirtualhmcovertopics:"
+    echo "  wrong number of arguments given"
+    exit 1
+  fi
+  # Essential status (essential, nonessential)
+  local l_essentialforUIStatus=$1
+
+  local l_deviceChannel=$2
+
+  # Template for this entity
+  local l_template="hm_secwin-automationvirtualhmcovertopics.yaml"
+
+  # entity type
+  local l_entityType="automation"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777automationvirtualcovertopics"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix=""
+
+  func_generateEntity
+
+
+}

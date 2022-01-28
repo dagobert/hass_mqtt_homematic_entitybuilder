@@ -1,0 +1,55 @@
+## Publishes the command __"open" and "close" for a hmip cover device, 
+# triggered by a topic which was in turn published by the mqtt.cover 
+# entity. 
+# This is necessary since mqtt.cover is not flexible enough to
+#   handle Homematic's way of publishing and subscribing to data
+- id: __UNIQUEID___commandopenclose
+  alias: __ENTITYNAME___commandopenclose
+  initial_state: true
+  trigger:
+    - platform: mqtt
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      payload: "open"
+    - platform: mqtt
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      payload: "close"
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/LEVEL"
+        payload: >-
+          {% if trigger.payload == "open" %}
+            1
+          {% elif trigger.payload == "close" %}
+            -0.005
+          {% else %}
+            not supported COMMAND value {{ trigger.payload }}
+          {% endif %}
+        retain: false
+        qos: 0
+
+## Publishes the command __"stop"__ for a hmip cover device, 
+# triggered by a topic which was in turn published by the mqtt.cover 
+# entity. 
+# This is necessary since mqtt.cover is not flexible enough to
+#   handle Homematic's way of publishing and subscribing to data
+- id: __UNIQUEID___commandstop
+  alias: __ENTITYNAME___commandstop
+  initial_state: true
+  trigger:
+    - platform: mqtt
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      payload: "stop"
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/STOP"
+        payload: >-
+          {% if trigger.payload == "stop" %}
+            true
+          {% else %}
+            not supported COMMAND value {{ trigger.payload }}
+          {% endif %}
+        retain: false
+        qos: 0
+

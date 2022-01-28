@@ -1,0 +1,24 @@
+# Meaning of values
+# integer
+# 0 = TRICKLE_CHARGE (Standard)
+# 1 = CHARGE
+# 2 = DISCHARGE
+# 3 = STATE_UNKNOWN
+
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/STATUS"
+value_template: >-
+  {{ value_json.val }}
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/STATUS"
+json_attributes_template: >-
+  {% set state_meaning=
+    [ "TRICKLE_CHARGE",
+    "CHARGE",
+    "DISCHARGE",
+    "STATE_UNKNOWN" ] %}
+    {"state_meaning":"{{ state_meaning[value_json.val] }}"}
+icon: mdi:alert
+qos: 0
+

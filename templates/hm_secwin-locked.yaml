@@ -1,0 +1,13 @@
+platform: mqtt
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL"
+device_class: lock
+value_template: >-
+        {% if value_json.val == -0.005 %}
+        OFF
+        {% else %}
+        ON
+        {% endif %}
+qos: 0
+

@@ -5,9 +5,9 @@ command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/STATE"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/STATE"
 value_template: >-
   {% if value_json.val %}
-    on
+    ON
   {% else %}
-    off
+    OFF
   {% endif %}
 retain: false
 qos: 0

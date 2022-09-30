@@ -2,13 +2,18 @@ platform: mqtt
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/STATE"
+payload_on: "true"
+payload_off: "false"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/STATE"
+state_on: "on"
+state_off: "off"
 value_template: >-
   {% if value_json.val %}
-    ON
+    on
   {% else %}
-    OFF
+    off
   {% endif %}
+optimistic: false
 retain: false
 qos: 0
 

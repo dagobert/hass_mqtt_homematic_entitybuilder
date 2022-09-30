@@ -8,14 +8,16 @@
 
 configfile="./entitybuilder_fromFile.conf"
 justPrint=0
-while getopts "c:f:j" opt; do
-  case $opt in
-	  c)  configfile=$OPTARG
-		  ;;
+while getopts "c:f:jl" opt; do
+	case $opt in
+		c)  configfile=$OPTARG
+			;;
 		f)  listFile=$OPTARG
-				;;
+			;;
 		j)  justPrint=1
-				;;
+			;;
+		l)  listCreatedFilesOnly="-l"
+			;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
         exit 1
@@ -53,9 +55,9 @@ for line in ${linearray[@]}; do
 	fi
 
 	if [[ "$justPrint" == 1 ]]; then
-		echo bash $progEntitybuilder -p $habasepath -x ${lineplit[0]} -c ${lineplit[1]} -m ${lineplit[2]} -n ${lineplit[3]} -H ${lineplit[4]} $rewriteCustomization
-  else
-		bash $progEntitybuilder -p $habasepath \
+		echo bash $progEntitybuilder $listCreatedFilesOnly -p $habasepath -x ${lineplit[0]} -c ${lineplit[1]} -m ${lineplit[2]} -n ${lineplit[3]} -H ${lineplit[4]} $rewriteCustomization
+	else
+		bash $progEntitybuilder $listCreatedFilesOnly -p $habasepath \
 			-x ${lineplit[0]} -c ${lineplit[1]} -m ${lineplit[2]} -n ${lineplit[3]} \
                         -H ${lineplit[4]} $rewriteCustomization
                 if [ $? == 1 ]; then

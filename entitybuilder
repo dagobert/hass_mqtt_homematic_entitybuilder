@@ -9,7 +9,7 @@ pathOfThisScript="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pw
 
 # Load configuration file if exist
 if [ -e "${pathOfThisScript}/entitybuilder.conf" ]; then
-  echo "Loading configuration file..."
+	[[ $DEBUG -gt 0 ]] && echo "Loading configuration file..."
   source "${pathOfThisScript}/entitybuilder.conf"
 else
   echo "Configuration file not found: ${pathOfThisScript}/entitybuilder.conf"
@@ -17,6 +17,7 @@ else
   exit 1
 fi
 
+DEBUG=0
 
 # Templates directory
 templatesSubDirectory="templates"
@@ -29,7 +30,7 @@ functionsSubDirectory="functions"
 
 overwriteCustomization="false"
 hideEntityFromUI="none"
-while getopts "x:m:n:c:p:CH:" opt; do
+while getopts "x:m:n:c:p:CH:l" opt; do
   case $opt in
     p)  habasepath=$OPTARG
 	      ;;
@@ -45,6 +46,8 @@ while getopts "x:m:n:c:p:CH:" opt; do
 	      ;;
     H)  hideEntityFromUI=$OPTARG
 				;;
+    l)  listCreatedFilesOnly="true"
+	      ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
         exit 1
@@ -88,7 +91,9 @@ if [ ! -d "${functionsDir}" ]; then
 fi
 for ff in ${functionsDir}/*; do
 
-	echo "Loading functions ${ff}..."
+	if [[ $DEBUG -gt 0 ]]; then
+		echo "Loading functions ${ff}..."
+	fi
 	source "${ff}"
 done
 
@@ -109,24 +114,27 @@ function func_generateEntity() {
 	fi
 
   local l_entitySubLocation=${name//_/\/}
-  [ $DEBUG > 0 ] && echo "entitysublocation for entities of the device: $l_entitySubLocation"
+  [ $DEBUG -gt 0 ] && echo "entitysublocation for entities of the device: $l_entitySubLocation"
 
   ## copy templates and replace placeholders in templates
   local l_entityAbsLocation="$habasepath/${l_entityTypeDir}/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
   local l_entityName="${name}${l_sensorSuffix}"
   local l_uniqueId="${name}${l_sensorSuffix}"
 
-  mkdir -p -v ${l_entityAbsLocation%/*}
-  cp -v $templateDir/${l_template} ${l_entityAbsLocation}
-  sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
-  sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
-  sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
-  sed -i 's|__DEVICEID__|'${deviceid}'|' ${l_entityAbsLocation}
-  sed -i 's|__CHANNELID__|'${l_deviceChannel}'|' ${l_entityAbsLocation}
-  sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
-  sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
-  sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
-
+  if [[ $listCreatedFilesOnly == "true" ]]; then
+	  echo ${l_entityAbsLocation}
+  else
+    mkdir -p -v ${l_entityAbsLocation%/*}
+    cp -v $templateDir/${l_template} ${l_entityAbsLocation}
+    sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
+    sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
+    sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
+    sed -i 's|__DEVICEID__|'${deviceid}'|' ${l_entityAbsLocation}
+    sed -i 's|__CHANNELID__|'${l_deviceChannel}'|' ${l_entityAbsLocation}
+    sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
+    sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
+    sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
+  fi
 	# Manage hide in UI
 	local l_hidden="false"
 	if [[ "$hideEntityFromUI" == "all" ]]; then

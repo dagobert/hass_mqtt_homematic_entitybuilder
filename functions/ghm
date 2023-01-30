@@ -273,7 +273,7 @@ function func_create_ghm_operatingvoltagestatus() {
   local l_friendlyNameSuffix="Betriebsspannung Status"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="binary_sensor"
 
 
   func_generateEntity
@@ -333,7 +333,7 @@ function func_create_ghm_actualtemperaturestatus() {
   local l_friendlyNameSuffix="Temperatursensor Status"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="binary_sensor"
 
 
   func_generateEntity

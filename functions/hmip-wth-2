@@ -10,7 +10,7 @@
 function func_create_hmip_wth2() {
 
 	# Template for this entity
-	local l_template="hmip_wth2-wallthermostat.yaml"
+	local l_template="hmip_etrv2-radiatorvalve.yaml"
 
 	# entity type
 	local l_entityType="climate"
@@ -108,7 +108,7 @@ function func_create_hmip_wth2_dewpoint() {
 	local l_template="hmip_wth2-dewpoint.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="nonmqtt-sensor"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777dewpoint"

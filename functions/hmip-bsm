@@ -10,13 +10,13 @@
 function func_create_hmip_bsm() {
 
 	# Template for this entity
-	local l_template="hmip_bsm-lightswitch.yaml"
+	local l_template="hmip_bsm-switch.yaml"
 
 	# entity type
-	local l_entityType="light"
+	local l_entityType="switch"
 
 	# suffix for this entity used in "name" and "unique_id"
-	local l_sensorSuffix="777dimmer"
+	local l_sensorSuffix="777switch"
 
 	# suffix for friendly_name used for UI
 	local l_friendlyNameSuffix=""

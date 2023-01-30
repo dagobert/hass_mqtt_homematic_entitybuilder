@@ -8,16 +8,16 @@
   initial_state: true
   trigger:
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/FOR_COMMAND_TOPIC"
       payload: "open"
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/FOR_COMMAND_TOPIC"
       payload: "close"
   action:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/LEVEL"
-        payload: >-
+        payload_template: >-
           {% if trigger.payload == "open" %}
             1
           {% elif trigger.payload == "close" %}
@@ -38,13 +38,13 @@
   initial_state: true
   trigger:
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__:__CHANNELID__/COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/FOR_COMMAND_TOPIC"
       payload: "stop"
   action:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "__CCUMQTTTOPIC__/set/__DEVICEID__:__CHANNELID__/STOP"
-        payload: >-
+        payload_template: >-
           {% if trigger.payload == "stop" %}
             true
           {% else %}

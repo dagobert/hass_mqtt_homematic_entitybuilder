@@ -30,7 +30,8 @@ function func_create_hb_unisentempds18b20() {
 
   # general homematic sensors
 	func_create_ghm_lowbat "essential"
-	func_create_ghm_unreach "nonessential"
+	# UNREACH does not exist
+	#func_create_ghm_unreach "nonessential"
 
   # special sensors
   func_create_hb_unisentempds18b20-temp "essential" "2"

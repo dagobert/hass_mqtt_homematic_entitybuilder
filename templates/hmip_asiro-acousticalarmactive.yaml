@@ -1,13 +1,38 @@
-platform: mqtt
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACOUSTIC_ALARM_ACTIVE"
 device_class: sound
-value_template: >-
-        {% if value_json.val %}
-        on
-        {% else %}
-        off
-        {% endif %}
+value_template: "{{ value_json.val }}"
+payload_on: true
+payload_off: false
+# Classification of non-primary entities
+# "config" of entity that changes configuration
+# "dignostic" for entities showing config params or diagnostics
+#entity_category:
+availability_mode: latest
+availability:
+  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+    value_template: "{{ value_json.val }}"
+    payload_available: false
+    payload_not_available: true
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACOUSTIC_ALARM_ACTIVE"
+json_attributes_template: >
+  {
+    "ccu_state": "{{ value_json.val }}",
+    "ccu_device": "{{ value_json.hm.device }}",
+    "ccu_deviceName": "{{ value_json.hm.deviceName }}",
+    "ccu_deviceType": "{{ value_json.hm.deviceType }}",
+    "ccu_channel": "{{ value_json.hm.channel }}",
+    "ccu_channelType": "{{ value_json.hm.channelType }}",
+    "ccu_channelIndex": "{{ value_json.hm.channelIndex }}",
+    "ccu_datapoint": "{{ value_json.hm.datapoint }}",
+    "ccu_datapointType": "{{ value_json.hm.datapointType }}",
+    "ccu_valuePrevious": "{{ value_json.hm.valuePrevious }}",
+    "ccu_valueStable": "{{ value_json.hm.valueStable }}",
+    "ccu_rooms": {{ value_json.hm.rooms | tojson }},
+    "ccu_functions": {{ value_json.hm.functions | tojson }},
+    "ccu_ts": "{{ (value_json.hm.ts / 1000) | int | timestamp_local }}",
+    "ccu_tsPrevious": "{{ (value_json.hm.tsPrevious / 1000) | int | timestamp_local }}"
+  }
 qos: 0
 

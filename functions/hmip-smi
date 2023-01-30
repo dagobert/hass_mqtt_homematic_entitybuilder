@@ -45,7 +45,7 @@ function func_create_hmip_smiv3() {
 	func_create_hmip_smi_illuminationstatus "nonessential"
 	func_create_hmip_smi_motiondetectionactive "essential"
 	
-	func_create_hmip_smi_motiondetection "essential"
+	func_create_hmip_smi_motion "essential"
 	func_create_hmip_smi_resetmotion "essential"
 }
 
@@ -204,7 +204,7 @@ function func_create_hmip_smi_motiondetectionactive() {
   local l_template="hmip_smi-motiondetectionactive.yaml"
 
 	# entity type
-  local l_entityType="binary_sensor"
+  local l_entityType="switch"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777motiondetectionactive"
@@ -216,32 +216,6 @@ function func_create_hmip_smi_motiondetectionactive() {
 
 }
 
-function func_create_hmip_smi_motiondetection() {
-  if [ $# -ne 1 ]; then
-    echo "func_create_hmip_smi_motiondetection:"
-    echo "  missing essential status"
-    exit 1
-  fi
-  # Essential status (essential, nonessential)
-  local l_essentialforUIStatus=$1
-
-  local l_deviceChannel=1
-
-  # Template for this entity
-  local l_template="hmip_smi-motiondetection.yaml"
-
-	# entity type
-  local l_entityType="switch"
-
-  # suffix for this entity used in "name" and "unique_id"
-  local l_sensorSuffix="777motiondetection"
-
-  # suffix for friendly_name used for UI
-  local l_friendlyNameSuffix="Bewegungserkennung"
-
-  func_generateEntity
-
-}
 
 function func_create_hmip_smi_resetmotion() {
   if [ $# -ne 1 ]; then
@@ -258,7 +232,7 @@ function func_create_hmip_smi_resetmotion() {
   local l_template="hmip_smi-resetmotion.yaml"
 
 	# entity type
-  local l_entityType="script"
+  local l_entityType="button"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777resetmotion"

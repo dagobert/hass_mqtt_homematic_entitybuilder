@@ -10,10 +10,10 @@
 function func_create_hm_espmsw1dr() {
 
 	# Template for this entity
-	local l_template="hm_espmsw1dr-lightswitch.yaml"
+	local l_template="hm_espmsw1dr-switch.yaml"
 
 	# entity type
-	local l_entityType="light"
+	local l_entityType="switch"
 
 	# suffix for this entity used in "name" and "unique_id"
 	local l_sensorSuffix="777switch"

@@ -1,7 +1,12 @@
-alias: "__ENTITYNAME__"
-sequence:
-  service: mqtt.publish
-  data:
-    topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/RESET_MOTION"
-    payload: "true"
-
+name: "__ENTITYNAME__"
+unique_id: "__UNIQUEID__"
+command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/RESET_MOTION"
+payload_press: true
+availability_mode: latest
+availability:
+  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+    value_template: "{{ value_json.val }}"
+    payload_available: false
+    payload_not_available: true
+icon: mdi:cancel
+qos: 0

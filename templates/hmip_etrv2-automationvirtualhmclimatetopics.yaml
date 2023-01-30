@@ -18,14 +18,14 @@
       from: "4.5"
   action:
     - service: mqtt.publish
-      data_template:
-        topic: '__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/ACTION'
-        payload: >-
+      data:
+        topic: '__HASSVIRTUALHMTOPIC__/status/__DEVICEID__/ACTION'
+        payload_template: >-
           {% if states('sensor.__NAME__777level')|float(0) > 0 %}
             heating
-          {% elif is_state('sensor.__NAME__777level', "0") 
-               and is_state('sensor.__NAME__777setpointmode', "1") 
-               and is_state('sensor.__NAME__777setpointtemperature', "4.5") %}
+          {% elif is_state('sensor.__NAME__777level', '0') 
+               and is_state('sensor.__NAME__777setpointmode', '1') 
+               and is_state('sensor.__NAME__777setpointtemperature', '4.5') %}
             off
           {% else %}
             idle
@@ -43,17 +43,17 @@
   initial_state: true
   trigger:
     - platform: mqtt
-      topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/MODE_COMMAND"
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/MODE_COMMAND"
   action:
     - service: mqtt.publish
-      data_template:
+      data:
         topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/CONTROL_MODE"
-        payload: >-
-          {% if trigger.payload == "auto" %}
+        payload_template: >-
+          {% if trigger.payload == 'auto' %}
             0
-          {% elif trigger.payload == "heat" %}
+          {% elif trigger.payload == 'heat' %}
             1
-          {% elif trigger.payload == "off" %}
+          {% elif trigger.payload == 'off' %}
             1
           {% else %}
             not supported MODE_COMMAND value {{ trigger.payload }}
@@ -63,19 +63,21 @@
     - condition: or
       conditions:
         - condition: template
-          value_template: >-
-            {{ trigger.payload == "heat" }}
+          value_template: "{{ trigger.payload == 'heat' }}"
         - condition: template
-          value_template: >-
-            {{ trigger.payload == "off" }}
+          value_template: "{{ trigger.payload == 'off' }}"
     # TODO Need to find a standard room temperature
     - service: mqtt.publish
-      data_template:
-        topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
-        payload: >-
-          {% if trigger.payload == "heat" %}
-            20
-          {% elif trigger.payload == "off" %}
+      data:
+        topic: '__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE'
+        payload_template: >-
+          {% if trigger.payload == 'heat' %}
+            {% if states('input_number.home_heatingsystem_presetmode_temperature_home') != 'unknown' %}
+              {{ states('input_number.home_heatingsystem_presetmode_temperature_home') }}
+            {% else %}
+              21
+            {% endif %}
+          {% elif trigger.payload == 'off' %}
             4.5
           {% endif %}
         retain: true
@@ -100,21 +102,187 @@
       from: "4.5"
   action:
     - service: mqtt.publish
-      data_template:
-        topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/MODE_STATE"
-        payload: >-
-          {% if is_state("sensor.__NAME__777setpointmode", "0") %}
+      data:
+        topic: "__HASSVIRTUALHMTOPIC__/status/__DEVICEID__/MODE_STATE"
+        payload_template: >-
+          {% if is_state('sensor.__NAME__777setpointmode', '0') %}
             auto
-          {% elif is_state("sensor.__NAME__777setpointmode", "1") and not 
-               is_state("sensor.__NAME__777setpointtemperature", "4.5") %}
+          {% elif is_state('sensor.__NAME__777setpointmode', '1') and not 
+               is_state('sensor.__NAME__777setpointtemperature', '4.5') %}
             heat
-          {% elif is_state("sensor.__NAME__777setpointmode", "1") and 
-               is_state("sensor.__NAME__777setpointtemperature", "4.5") %}
+          {% elif is_state('sensor.__NAME__777setpointmode', '1') and 
+               is_state('sensor.__NAME__777setpointtemperature', '4.5') %}
             off
-          {% elif is_state("sensor.__NAME__777setpointmode", "2") %}
+          {% elif is_state('sensor.__NAME__777setpointmode', '2') %}
             vacation (not supported)
           {% else %}
             unknown state
+          {% endif %}
+        retain: true
+        qos: 0
+
+## Publishes the preset mode command for a hm climate device, triggered by
+#  a topic which was in turn published by the mqtt.climate entity
+#   This is necessary since mqtt.climate is not flexible enough to
+#   handle Homematic's way of publishing and subscribing to data
+- id: __UNIQUEID___presetmodecommand
+  alias: __ENTITYNAME___presetmodecommand
+  initial_state: true
+  trigger:
+    - platform: mqtt
+      topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/PRESET_MODE_COMMAND"
+  action:
+    - choose:
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'boost' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/BOOST_MODE"
+              payload: true
+              qos: 0
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'home' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_MODE"
+              payload: 1
+              qos: 0
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
+              payload_template: >-
+                {% if states('input_number.home_heatingsystem_presetmode_temperature_home') != 'unknown' %}
+                  {{ states('input_number.home_heatingsystem_presetmode_temperature_home') }}
+                {% else %}
+                  21.0
+                {% endif %}
+              qos: 0
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'warmer' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_MODE"
+              payload: 1
+              qos: 0
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
+              payload_template: >-
+                {% if states('input_number.home_heatingsystem_presetmode_temperature_warmer') != 'unknown' %}
+                  {{ states('input_number.home_heatingsystem_presetmode_temperature_warmer') }}
+                {% else %}
+                  23.0
+                {% endif %}
+              qos: 0
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'away' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_MODE"
+              payload: 1
+              qos: 0
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
+              payload_template: >-
+                {% if states('input_number.home_heatingsystem_presetmode_temperature_away') != 'unknown' %}
+                  {{ states('input_number.home_heatingsystem_presetmode_temperature_away') }}
+                {% else %}
+                  19.5
+                {% endif %}
+              qos: 0
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'holiday' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_MODE"
+              payload: 1
+              qos: 0
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
+              payload_template: >-
+                {% if states('input_number.home_heatingsystem_presetmode_temperature_holiday') != 'unknown' %}
+                  {{ states('input_number.home_heatingsystem_presetmode_temperature_holiday') }}
+                {% else %}
+                  17.0
+                {% endif %}
+              qos: 0
+      - conditions:
+        - condition: template
+          value_template: "{{ trigger.payload == 'summer' }}"
+        sequence:
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_MODE"
+              payload: 1
+              qos: 0
+          - service: mqtt.publish
+            data:
+              topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
+              payload_template: >-
+                {% if states('input_number.home_heatingsystem_presetmode_temperature_summer') != 'unknown' %}
+                  {{ states('input_number.home_heatingsystem_presetmode_temperature_summer') }}
+                {% else %}
+                  10.0
+                {% endif %}
+              qos: 0
+
+
+## Publishes the preset mode state of a hm climate device, triggered by 
+#  sensor.setpointmode and sensor.setpointtemperature
+#   This is necessary since mqtt.climate is not flexible enough to
+#   handle Homematic's way of publishing data
+- id: __UNIQUEID___presetmodestate
+  alias: __ENTITYNAME___presetmodestate
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: sensor.__NAME__777setpointmode
+    - platform: state
+      entity_id: sensor.__NAME__777setpointtemperature
+    - platform: state
+      entity_id: sensor.__NAME__777boostmode
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "__HASSVIRTUALHMTOPIC__/status/__DEVICEID__/PRESET_MODE_STATE"
+        payload_template: >-
+          {% if is_state('sensor.__NAME__777boostmode', 'on') %}
+            boost
+          {% elif is_state('sensor.__NAME__777setpointmode', '1') %}
+            {% set spt = state('sensor.__NAME__777setpointtemperature') | float(0) %}
+            {% if (states('input_number.home_heatingsystem_presetmode_temperature_home') == 'unknown' and
+                spt == 21.0 ) or 
+                states('input_number.home_heatingsystem_presetmode_temperature_home') == spt %}
+              home
+            {% elif (states('input_number.home_heatingsystem_presetmode_temperature_warmer') == 'unknown' and
+                spt == 23.0) or 
+                states('input_number.home_heatingsystem_presetmode_temperature_warmer') == spt %}
+              warmer
+            {% elif (states('input_number.home_heatingsystem_presetmode_temperature_away') == 'unknown' and
+                spt == 19.5) or 
+                states('input_number.home_heatingsystem_presetmode_temperature_away') == spt %}
+              away
+            {% elif (states('input_number.home_heatingsystem_presetmode_temperature_holiday') == 'unknown' and
+                spt == 17.0) or 
+                states('input_number.home_heatingsystem_presetmode_temperature_holiday') == spt %}
+              holiday
+            {% elif (states('input_number.home_heatingsystem_presetmode_temperature_summer') == 'unknown' and
+                spt == 10.0) or 
+                states('input_number.home_heatingsystem_presetmode_temperature_summer') == spt %}
+              summer
+            {% endif %}
           {% endif %}
         retain: true
         qos: 0

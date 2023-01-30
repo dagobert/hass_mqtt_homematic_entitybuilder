@@ -2,29 +2,22 @@
 # https://www.home-assistant.io/integrations/climate.mqtt/
 #
 
-platform: mqtt
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
-retain: true
-qos: 0
-value_template: "{{ value_json.val }}"
 current_temperature_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/ACTUAL_TEMPERATURE"
-current_temperature_template: >-
-        {{ value_json.val | float(0) }}
+current_temperature_template: "{{ value_json.val | float(0) }}"
 # The HVAC action describes the current action.
 # HEAT, IDLE, OFF
-action_topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/ACTION"
-action_template: >-
-        {{ value }}
+action_topic: "__HASSVIRTUALHMTOPIC__/status/__DEVICEID__/ACTION"
+action_template: "{{ value }}"
 # The HVAC action describes the mode as in switched-to
 modes:
-        - "auto"
-        - "heat"
-        - "off"
-mode_command_topic: "__HASSVIRTUALHMTOPIC__/set/__CHANNEL__/MODE_COMMAND"
-mode_state_topic: "__HASSVIRTUALHMTOPIC__/status/__CHANNEL__/MODE_STATE"
-mode_state_template: >-
-        {{ value }}
+  - "auto"
+  - "heat"
+  - "off"
+mode_command_topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/MODE_COMMAND"
+mode_state_topic: "__HASSVIRTUALHMTOPIC__/status/__DEVICEID__/MODE_STATE"
+mode_state_template: "{{ value }}"
 temperature_command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
 temperature_state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_TEMPERATURE"
 temperature_state_template: "{{ value_json.val | float(0) }}"
@@ -32,3 +25,45 @@ precision: 0.1
 min_temp: 14.0
 max_temp: 30.0
 temp_step: 0.5
+preset_mode_command_topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/PRESET_MODE_COMMAND"
+preset_mode_command_template: "{{ value }}"
+preset_mode_state_topic: "__HASSVIRTUALHMTOPIC__/set/__DEVICEID__/PRESET_MODE_STATE"
+preset_mode_value_template: "{{ value }}"
+# Set the following helper (float with 0.5 steps) or use the default values
+# input_number.home_heatingsystem_presetmode_temperature_home (default: 21.0)
+# input_number.home_heatingsystem_presetmode_temperature_warmer (default: 23.0)
+# input_number.home_heatingsystem_presetmode_temperature_away (default: 19.5)
+# input_number.home_heatingsystem_presetmode_temperature_holiday (default: 17)
+# input_number.home_heatingsystem_presetmode_temperature_summer (default: 10)
+preset_modes:
+  - home
+  - boost
+  - warmer
+  - away
+  - holiday
+  - summer
+availability_mode: latest
+availability:
+  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+    value_template: "{{ value_json.val }}"
+    payload_available: false
+    payload_not_available: true
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/CONTROL_MODE"
+json_attributes_template: >
+  {
+    "ccu_state": "{{ value_json.val }}",
+    "ccu_device": "{{ value_json.hm.device }}",
+    "ccu_deviceName": "{{ value_json.hm.deviceName }}",
+    "ccu_deviceType": "{{ value_json.hm.deviceType }}",
+    "ccu_channel": "{{ value_json.hm.channel }}",
+    "ccu_channelType": "{{ value_json.hm.channelType }}",
+    "ccu_channelIndex": "{{ value_json.hm.channelIndex }}",
+    "ccu_datapoint": "{{ value_json.hm.datapoint }}",
+    "ccu_datapointType": "{{ value_json.hm.datapointType }}",
+    "ccu_valuePrevious": {{ value_json.hm.valuePrevious }},
+    "ccu_valueStable": {{ value_json.hm.valueStable }},
+    "ccu_rooms": {{ value_json.hm.rooms | tojson }},
+    "ccu_functions": {{ value_json.hm.functions | tojson }},
+    "ccu_ts": "{{ (value_json.hm.ts / 1000) | int | timestamp_local }}",
+    "ccu_tsPrevious": "{{ (value_json.hm.tsPrevious / 1000) | int | timestamp_local }}"
+  }

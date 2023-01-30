@@ -10,10 +10,10 @@
 function func_create_hm_lcsw1dr() {
 
 	# Template for this entity
-	local l_template="hm_lcsw1dr-lightswitch.yaml"
+	local l_template="hm_lcsw1dr-switch.yaml"
 
 	# entity type
-	local l_entityType="light"
+	local l_entityType="switch"
 
 	# suffix for this entity used in "name" and "unique_id"
 	local l_sensorSuffix="777switch"
@@ -29,7 +29,8 @@ function func_create_hm_lcsw1dr() {
 
 
         # general sensors
-        func_create_ghm_unreach "nonessential"
+	# Not existing
+        #func_create_ghm_unreach "nonessential"
 
 }
 

@@ -17,8 +17,6 @@ else
   exit 1
 fi
 
-DEBUG=0
-
 # Templates directory
 templatesSubDirectory="templates"
 
@@ -97,6 +95,23 @@ for ff in ${functionsDir}/*; do
 	source "${ff}"
 done
 
+# Generate mqtt configuration include file
+echo "# !!!! THIS FILE IS AUTO GENERATED AND WILL BE OVERWRITTEN !!!!" > ${habasepath}/mqtt/mqtt.yaml
+echo "#" >> ${habasepath}/mqtt/mqtt.yaml
+echo "# This is an include file to manage manually added mqtt devices" >> ${habasepath}/mqtt/mqtt.yaml
+echo "# and automatically generated devices by entitybuilder" >> ${habasepath}/mqtt/mqtt.yaml
+echo "#" >> ${habasepath}/mqtt/mqtt.yaml
+echo "" >> ${habasepath}/mqtt/mqtt.yaml
+
+for entityTypeKey in ${!entityTypeSubdirectories[@]}; do
+	if [ "${entityTypeKey%%-*}" == "nonmqtt" ]; then
+		continue
+	fi
+	entityTypeValue=${entityTypeSubdirectories[$entityTypeKey]}
+	echo "${entityTypeKey}: !include_dir_list ${entityTypeValue##*/}/" >> ${habasepath}/mqtt/mqtt.yaml
+done
+
+
 
 ###################
 ## Functions here
@@ -105,7 +120,11 @@ done
 function func_generateEntity() {
 
 	# entity type
-	local l_entityTypeDir=${entityTypeSubdirectories[$l_entityType]}
+        local l_entityTypeDir=${entityTypeSubdirectories[$l_entityType]}
+	if [ "$l_entityTypeDir" == "" ]; then
+		echo "Entity type is not defined: $l_entityType"
+		exit 1
+	fi
 
 	# Check existance of templates
 	if [ ! -e "$templateDir/$l_template" ]; then
@@ -113,33 +132,34 @@ function func_generateEntity() {
 		exit 1
 	fi
 
-  local l_entitySubLocation=${name//_/\/}
-  [ $DEBUG -gt 0 ] && echo "entitysublocation for entities of the device: $l_entitySubLocation"
+	local l_entitySubLocation=${name//_/\/}
+	[ $DEBUG -gt 0 ] && echo "entitysublocation for entities of the device: $l_entitySubLocation"
 
-  ## copy templates and replace placeholders in templates
-  local l_entityAbsLocation="$habasepath/${l_entityTypeDir}/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
-  local l_entityName="${name}${l_sensorSuffix}"
-  local l_uniqueId="${name}${l_sensorSuffix}"
+	## copy templates and replace placeholders in templates
+  	local l_entityAbsLocation="$habasepath/${l_entityTypeDir}/${subdirForGenerated}/${l_entitySubLocation}${l_sensorSuffix}.yaml"
+  	local l_entityName="${name}${l_sensorSuffix}"
+  	local l_uniqueId="${name}${l_sensorSuffix}"
 
-  if [[ $listCreatedFilesOnly == "true" ]]; then
-	  echo ${l_entityAbsLocation}
-  else
-    mkdir -p -v ${l_entityAbsLocation%/*}
-    cp -v $templateDir/${l_template} ${l_entityAbsLocation}
-    sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
-    sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
-    sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
-    sed -i 's|__DEVICEID__|'${deviceid}'|' ${l_entityAbsLocation}
-    sed -i 's|__CHANNELID__|'${l_deviceChannel}'|' ${l_entityAbsLocation}
-    sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
-    sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
-    sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
-  fi
+	if [[ $listCreatedFilesOnly == "true" ]]; then
+		echo ${l_entityAbsLocation}
+	else
+    		mkdir -p -v ${l_entityAbsLocation%/*}
+    		cp -v $templateDir/${l_template} ${l_entityAbsLocation}
+    		sed -i "s/__ENTITYNAME__/$l_entityName/" ${l_entityAbsLocation}
+    		sed -i 's|__UNIQUEID__|'$l_uniqueId'|' ${l_entityAbsLocation}
+    		sed -i 's|__CHANNEL__|'${channel::-1}${l_deviceChannel}'|' ${l_entityAbsLocation}
+    		sed -i 's|__DEVICEID__|'${deviceid}'|' ${l_entityAbsLocation}
+    		sed -i 's|__CHANNELID__|'${l_deviceChannel}'|' ${l_entityAbsLocation}
+    		sed -i "s/__NAME__/$name/" ${l_entityAbsLocation}
+    		sed -i "s|__CCUMQTTTOPIC__|$mqttPrefix/${ccuMqttTopicPrefix}|" ${l_entityAbsLocation}
+    		sed -i "s|__HASSVIRTUALHMTOPIC__|${mqttPrefix}/${hassVirtualnmMqttTopicPrefix}|" ${l_entityAbsLocation}
+  	fi
+
 	# Manage hide in UI
 	local l_hidden="false"
 	if [[ "$hideEntityFromUI" == "all" ]]; then
 		l_hidden="true"
-  elif [[ "$l_essentialforUIStatus" == "nonessential" && "$hideEntityFromUI" == "nonessential" ]]; then
+  	elif [[ "$l_essentialforUIStatus" == "nonessential" && "$hideEntityFromUI" == "nonessential" ]]; then
 		l_hidden="true"
 	fi
 

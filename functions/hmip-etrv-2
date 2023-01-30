@@ -134,7 +134,7 @@ function func_create_hmip_etrv2_activeprofile() {
 	local l_template="hmip_etrv2-activeprofile.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="select"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777activeprofile"
@@ -191,7 +191,7 @@ function func_create_hmip_etrv2_level() {
 	local l_template="hmip_etrv2-level.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="number"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777level"
@@ -218,7 +218,7 @@ function func_create_hmip_etrv2_levelstatus() {
 	local l_template="hmip_etrv2-levelstatus.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="binary_sensor"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777levelstatus"
@@ -272,7 +272,7 @@ function func_create_hmip_etrv2_setpointtemperature() {
 	local l_template="hmip_etrv2-setpointtemperature.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="number"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777setpointtemperature"
@@ -327,7 +327,7 @@ function func_create_hmip_etrv2_automationvirtualhmclimatetopics() {
   local l_template="hmip_etrv2-automationvirtualhmclimatetopics.yaml"
 
   # entity type
-  local l_entityType="automation"
+  local l_entityType="nonmqtt-automation"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777automationvirtualhmclimatetopics"

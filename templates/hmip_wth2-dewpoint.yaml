@@ -3,7 +3,9 @@ sensors:
   __ENTITYNAME__:
     unique_id: __ENTITYNAME__
     device_class: temperature
+    #state_class: measurement
     unit_of_measurement: "°C"
+    icon_template: mdi:thermometer-water
     value_template: >-
       {% set param_a = 7.5 %}
       {% set param_b = 237.3 %}

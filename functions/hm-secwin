@@ -93,7 +93,7 @@ function func_create_hm_secwin_errorcode() {
 	local l_template="hm_secwin-errorcode.yaml"
 
 	# entity type
-	local l_entityType="sensor"
+	local l_entityType="binary_sensor"
 
 	# suffix for this entity used in "name" and "unique_id"
 	local l_sensorSuffix="777error"
@@ -157,7 +157,7 @@ function func_create_hm_secwin_batchargingstatus() {
   local l_friendlyNameSuffix="Akku Ladestatus"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="binary_sensor"
 
 
   func_generateEntity
@@ -180,7 +180,7 @@ function func_create_hm_secwin_automationvirtualhmcovertopics() {
   local l_template="hm_secwin-automationvirtualhmcovertopics.yaml"
 
   # entity type
-  local l_entityType="automation"
+  local l_entityType="nonmqtt-automation"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777automationvirtualcovertopics"

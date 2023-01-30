@@ -38,6 +38,7 @@ function func_create_hmip_swsd() {
 
 # Special
         func_create_hmip_swsd-timeofoperation "nonessential" "0"
+        func_create_hmip_swsd-timeofoperationstatus "nonessential" "0"
 
         func_create_hmip_swsd-smokedetectorcommand_smoketest "essential"
         func_create_hmip_swsd-smokedetectorcommand_intrusion "essential"
@@ -76,6 +77,35 @@ function func_create_hmip_swsd-timeofoperation() {
 
 }
 
+# Creates sensor TIME_OF_OPERATION_STATUS
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_hmip_swsd-timeofoperationstatus() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_hmip_swsd-timeofoperationstatus:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="hmip_swsd-timeofoperationstatus.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777timeofoperationstatus"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Laufzeit Status"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+
+  func_generateEntity
+
+}
 
 # Creates sensor SMOKE_DETECTOR_TEST_RESULT
 # @string essential for UI

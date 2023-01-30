@@ -1,23 +1,46 @@
+# Meaning of values
+# integer
+# 0 = NORMAL
+# 1 = UNKNOWN
+# 2 = OVERFLOW
+# 3 = UNDERFLOW
+# 4 = ERROR
+
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
-state_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
-device_class: "connectivity"
-value_template: "{{ value_json.val }}"
-payload_on: false
-payload_off: true
+state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL_STATUS"
+value_template: >-
+  {% if value_json.val == 0 %}
+    off
+  {% elif value_json.val == 1 %}
+    unknown
+  {% else %}
+    on
+  {% endif %}
+payload_on: "on"
+payload_off: "off"
+device_class: problem
 # Classification of non-primary entities
 # "config" of entity that changes configuration
 # "dignostic" for entities showing config params or diagnostics
 entity_category: diagnostic
-#availability_mode: latest
-#availability:
-#  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
-#    value_template: "{{ value_json.val }}"
-#    payload_available: false
-#    payload_not_available: true
-json_attributes_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+availability_mode: latest
+availability:
+  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+    value_template: "{{ value_json.val }}"
+    payload_available: false
+    payload_not_available: true
+json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/LEVEL_STATUS"
 json_attributes_template: >
+  {% set state_meaning=
+    [ "NORMAL",
+    "UNKNOWN",
+    "UNDERFLOW",
+    "OVERFLOW",
+    "ERROR" ] -%}
   {
+    "state_meaning": "{{ state_meaning[value_json.val] }}",
+    "state_possible_values": "NORMAL, UNKNOWN, UNDERFLOW, OVERFLOW, ERROR",
     "ccu_state": "{{ value_json.val }}",
     "ccu_device": "{{ value_json.hm.device }}",
     "ccu_deviceName": "{{ value_json.hm.deviceName }}",

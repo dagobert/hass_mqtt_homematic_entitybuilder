@@ -10,16 +10,16 @@ value_template: "{{ value_json.val }}"
 # "dignostic" for entities showing config params or diagnostics
 #entity_category:
 # UNREACH does not exist
-#availability_mode: latest
-#availability:
-#  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
-#    value_template: "{{ value_json.val }}"
-#    payload_available: false
-#    payload_not_available: true
+availability_mode: latest
+availability:
+  - topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:0/UNREACH"
+    value_template: "{{ value_json.val }}"
+    payload_available: false
+    payload_not_available: true
 json_attributes_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/TEMPERATURE"
 json_attributes_template: >
   {
-    "state_meaning": "{{ state_meaning[value_json.val] }}",
+    "ccu_state": "{{ value_json.val }}",
     "ccu_device": "{{ value_json.hm.device }}",
     "ccu_deviceName": "{{ value_json.hm.deviceName }}",
     "ccu_deviceType": "{{ value_json.hm.deviceType }}",

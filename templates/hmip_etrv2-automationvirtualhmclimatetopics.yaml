@@ -261,7 +261,7 @@
           {% if is_state('sensor.__NAME__777boostmode', 'on') %}
             boost
           {% elif is_state('sensor.__NAME__777setpointmode', '1') %}
-            {% set spt = state('sensor.__NAME__777setpointtemperature') | float(0) %}
+            {% set spt = states('sensor.__NAME__777setpointtemperature') | float(0) %}
             {% if (states('input_number.home_heatingsystem_presetmode_temperature_home') == 'unknown' and
                 spt == 21.0 ) or 
                 states('input_number.home_heatingsystem_presetmode_temperature_home') == spt %}

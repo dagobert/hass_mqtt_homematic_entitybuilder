@@ -400,3 +400,31 @@ function func_create_ghm_erroroverheat() {
   func_generateEntity
 
 }
+
+function func_create_ghm_errorpowerfailure() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_errorpowerfailure:"
+				 echo "  wrong number of argument given"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+  
+  # Template for this entity
+	local l_template="ghm-errorpowerfailure.yaml"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777errorpowerfailure"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Error Power Failure"
+
+
+  func_generateEntity
+
+}
+

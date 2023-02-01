@@ -59,7 +59,7 @@ function func_create_hmip_froll() {
 
 ## Channel 1
 function func_create_hmip_froll_levelstatus() {
-	if [ $# -ne2 ]; then
+	if [ $# -ne 2 ]; then
 		 echo "func_create_hmip_froll_levelstatus:"
 		 echo "  missing essential status or/and channel"
 		 exit 1

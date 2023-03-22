@@ -199,6 +199,8 @@ case $model in
                                       ;;
   hmip_drsi1)   func_create_hmip_drsi1
                                       ;;
+  hmip_fdt)     func_create_hmip_fdt
+   				      ;;
   hmip_froll)   func_create_hmip_froll
                                       ;;
   hmip_fsm)     func_create_hmip_fsm

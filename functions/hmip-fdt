@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Specific functions for Homematic IP FDT hardware
+#
+
+#######
+# Create
+#######
+
+function func_create_hmip_fdt() {
+	# Template for this entity
+	local l_template="hmip_bdt-lightdimmer.yaml"
+
+	# entity type
+	local l_entityType="light"
+
+	# suffix for this entity used in "name" and "unique_id"
+	local l_sensorSuffix="777dimmer"
+
+	# suffix for friendly_name used for UI
+	local l_friendlyNameSuffix=""
+
+	# define if entity is essential or nonessential to show up in UI
+	local l_essentialforUIStatus="essential"
+
+	local l_deviceChannel=${channel#*:}
+	func_generateEntity
+
+
+  ## general homematic sensors
+	func_create_ghm_rssidevice "nonessential"
+	func_create_ghm_rssipeer "nonessential"
+	func_create_ghm_dutycycle "nonessential"
+	func_create_ghm_unreach "nonessential"
+	func_create_ghm_errorcode "nonessential" "0"
+	func_create_ghm_erroroverheat "nonessential" "0"
+	func_create_ghm_errorupdate "nonessential" "0"
+	func_create_ghm_erroroverload "nonessential" "0"
+
+}
+
+

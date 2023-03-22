@@ -428,3 +428,63 @@ function func_create_ghm_errorpowerfailure() {
 
 }
 
+# Creates binary sensor ERROR_UPDATE
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_errorupdate() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_errorupdate:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-errorupdate.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777errorupdate"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Fehler beim Update"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+
+  func_generateEntity
+
+}
+
+# Creates binary sensor ERROR_OVERLOAD
+# @string essential for UI
+# @int    channel of homematic device (this is not the mqtt channel)
+function func_create_ghm_erroroverload() {
+	if [ $# -ne 2 ]; then
+				 echo "func_create_ghm_erroroverload:"
+				 echo "  missing Hm device channel"
+				 exit 1
+	fi
+	# Essential status (essential, nonessential)
+	local l_essentialforUIStatus=$1
+	local l_deviceChannel=$2
+
+  # Template for this entity
+	local l_template="ghm-erroroverload.yaml"
+
+  # suffix for this entity used in "name" and "unique_id"
+  local l_sensorSuffix="777erroroverload"
+
+  # suffix for friendly_name used for UI
+  local l_friendlyNameSuffix="Fehler durch Ueberlastung"
+
+	# entity type
+  local l_entityType="binary_sensor"
+
+
+  func_generateEntity
+
+}
+

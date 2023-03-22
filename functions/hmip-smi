@@ -149,7 +149,7 @@ function func_create_hmip_smi_illuminationstatus() {
   local l_template="hmip_smi-illuminationstatus.yaml"
 
 	# entity type
-  local l_entityType="sensor"
+  local l_entityType="binary_sensor"
 
   # suffix for this entity used in "name" and "unique_id"
   local l_sensorSuffix="777illuminationstatus"

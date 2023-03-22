@@ -7,7 +7,7 @@
 # Create
 ##########
 
-function func_create_hmip_psv4-switch() {
+function func_create_hmip_psv4() {
 
 	# Template for this entity
 	local l_template="hmip_ps-switch.yaml"
@@ -27,11 +27,6 @@ function func_create_hmip_psv4-switch() {
 	local l_deviceChannel=${channel#*:}
 	func_generateEntity
 
-	func_create_hmip_psv4-general
-
-}
-
-function func_create_hmip_psv4-general() {
 
   # general homematic sensors
 	# Kanal 0

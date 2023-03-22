@@ -211,9 +211,7 @@ case $model in
   				      ;;
   hmip_pcbs)    func_create_hmip_pcbs
                                       ;;
-  hmip_psv4-light)   func_create_hmip_psv4-light
-                                      ;;
-  hmip_psv4-switch)   func_create_hmip_psv4-switch
+  hmip_psv4)   func_create_hmip_psv4
                                       ;;
   hmip_smiv3)   func_create_hmip_smiv3
   				      ;;

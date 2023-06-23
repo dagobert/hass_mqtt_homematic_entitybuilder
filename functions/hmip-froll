@@ -42,7 +42,7 @@ function func_create_hmip_froll() {
 	func_create_ghm_unreach "nonessential"
 
 	# Kanal 4
-	func_create_hmip_froll_levelstatus "nonessential" "4"
+	func_create_hmip_froll_levelstatus "nonessential" "3"
 
 
         # create virtual sensors, actors and automations

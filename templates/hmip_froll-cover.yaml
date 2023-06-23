@@ -14,7 +14,7 @@ value_template: >
   {% else %}
     UNKNOWN
   {% endif %}
-position_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:__CHANNELID__/LEVEL"
+position_topic: "__CCUMQTTTOPIC__/status/__DEVICEID__:3/LEVEL"
 position_open: 100
 position_closed: 0
 position_template: '{{ (value_json.val * 100) |int }}'

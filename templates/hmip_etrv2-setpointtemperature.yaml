@@ -1,7 +1,7 @@
 name: "__ENTITYNAME__"
 unique_id: "__UNIQUEID__"
 command_topic: "__CCUMQTTTOPIC__/set/__CHANNEL__/SET_POINT_TEMPERATURE"
-command_template: "{{ value }}"
+command_template: '{{ value }}'
 min: 4.5
 max: 30.5
 step: 0.5
@@ -9,7 +9,7 @@ mode: auto
 state_topic: "__CCUMQTTTOPIC__/status/__CHANNEL__/SET_POINT_TEMPERATURE"
 device_class: temperature
 unit_of_measurement: "°C"
-value_template: "{{ value_json.val }}"
+value_template: '{{ value_json.val }}'
 # Classification of non-primary entities
 # "config" of entity that changes configuration
 # "dignostic" for entities showing config params or diagnostics
